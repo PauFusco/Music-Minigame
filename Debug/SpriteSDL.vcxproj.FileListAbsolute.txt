@@ -1,3 +1,4 @@
 C:\Users\paufz\Documents\GitHub\SpriteSDL\Debug\SpriteSDL.exe
 C:\Users\paufz\Documents\GitHub\madeSpriteSDL\Nontendo\Debug\SpriteSDL.exe
 C:\Users\paufu\Documents\GitHub\Music-Minigame\Debug\SpriteSDL.exe
+C:\Users\marcf\OneDrive\Documents\GitHub\Music-Minigame\Debug\SpriteSDL.exe
