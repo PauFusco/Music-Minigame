@@ -1,0 +1,2 @@
+C:\Users\paufz\Documents\GitHub\SpriteSDL\Debug\SpriteSDL.exe
+C:\Users\paufz\Documents\GitHub\madeSpriteSDL\Nontendo\Debug\SpriteSDL.exe
