@@ -1,1 +1,1 @@
-# Music-Minigame
+# Music Minigame
