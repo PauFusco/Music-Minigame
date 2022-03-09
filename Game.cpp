@@ -34,7 +34,7 @@ bool Game::Init()
 		return false;
 
 	//Init variables
-	Player.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
+	Player.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 82, 104, 5);
 	idx_shot = 0;
 	Silence.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
 	Enemy.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
@@ -59,7 +59,7 @@ bool Game::LoadImages()
 		return false;
 	}
 	
-	img_player = SDL_CreateTextureFromSurface(Renderer, IMG_Load("spaceship.png"));
+	img_player = SDL_CreateTextureFromSurface(Renderer, IMG_Load("player-base.png"));
 	if (img_player == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
