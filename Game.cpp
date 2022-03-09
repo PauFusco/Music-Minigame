@@ -36,6 +36,8 @@ bool Game::Init()
 	//Init variables
 	Player.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
 	idx_shot = 0;
+	Silence.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
+	Enemy.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
 	int w;
 	SDL_QueryTexture(img_background, NULL, NULL, &w, NULL);
 	Scene.Init(0, 0, w, WINDOW_HEIGHT, 4);
@@ -68,6 +70,12 @@ bool Game::LoadImages()
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
+	
+	img_silence = SDL_CreateTextureFromSurface(Renderer, IMG_Load("silence.png"));
+	if (img_silence == NULL) {
+		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
+		return false;
+	}
 
 	img_shot = SDL_CreateTextureFromSurface(Renderer, IMG_Load("shot.png"));
 	if (img_shot == NULL) {
@@ -82,6 +90,8 @@ void Game::Release()
 	SDL_DestroyTexture(img_background);
 	SDL_DestroyTexture(img_player);
 	SDL_DestroyTexture(img_shot);
+	SDL_DestroyTexture(img_enemy);
+	SDL_DestroyTexture(img_silence);
 	IMG_Quit();
 	
 	//Clean up all SDL initialized subsystems
@@ -141,6 +151,13 @@ bool Game::Update()
 	if (Scene.GetX() <= -Scene.GetWidth())	Scene.SetX(0);
 	//Player update
 	Player.Move(fx, fy);
+
+	//Silence update
+	Silence.Move(1, 0);
+
+	//Enemy update
+	Enemy.Move(2, 0);
+
 	//Shots update
 	for (int i = 0; i < MAX_SHOTS; ++i)
 	{
@@ -150,7 +167,6 @@ bool Game::Update()
 			if (Shots[i].GetX() > WINDOW_WIDTH)	Shots[i].ShutDown();
 		}
 	}
-		
 	return false;
 }
 void Game::Draw()
@@ -175,6 +191,14 @@ void Game::Draw()
 	Player.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 	SDL_RenderCopy(Renderer, img_player, NULL, &rc);
 	if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+
+	//Draw silence
+	Silence.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+	SDL_RenderCopy(Renderer, img_silence, NULL, &rc);
+
+	//Draw enemy
+	Enemy.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+	SDL_RenderCopy(Renderer, img_enemy, NULL, &rc);
 	
 	//Draw shots
 	for (int i = 0; i < MAX_SHOTS; ++i)

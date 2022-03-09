@@ -31,9 +31,9 @@ public:
 private:
 	SDL_Window *Window;
 	SDL_Renderer *Renderer;
-	SDL_Texture *img_background, *img_player, * img_enemy, *img_shot;
+	SDL_Texture *img_background, *img_player, * img_enemy, * img_silence, *img_shot;
 
-	Entity Player, Enemy, Shots[MAX_SHOTS], Scene;
+	Entity Player, Enemy, Shots[MAX_SHOTS], Scene, Silence;
 	int idx_shot;
 	int idx_enemy;
 	
