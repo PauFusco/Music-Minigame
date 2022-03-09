@@ -50,20 +50,26 @@ bool Game::LoadImages()
 		SDL_Log("IMG_Init, failed to init required png support: %s\n", IMG_GetError());
 		return false;
 	}
+
 	img_background = SDL_CreateTextureFromSurface(Renderer, IMG_Load("background.png"));
-	
 	if (img_background == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
-	img_player = SDL_CreateTextureFromSurface(Renderer, IMG_Load("spaceship.png"));
 	
+	img_player = SDL_CreateTextureFromSurface(Renderer, IMG_Load("spaceship.png"));
 	if (img_player == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
+
+	img_enemy = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy.png"));
+	if (img_enemy == NULL) {
+		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
+		return false;
+	}
+
 	img_shot = SDL_CreateTextureFromSurface(Renderer, IMG_Load("shot.png"));
-	
 	if (img_shot == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;

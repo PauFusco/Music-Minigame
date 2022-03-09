@@ -31,11 +31,12 @@ public:
 private:
 	SDL_Window *Window;
 	SDL_Renderer *Renderer;
-	SDL_Texture *img_background, *img_player, *img_shot;
+	SDL_Texture *img_background, *img_player, * img_enemy, *img_shot;
 
-	Entity Player, Shots[MAX_SHOTS], Scene;
+	Entity Player, Enemy, Shots[MAX_SHOTS], Scene;
 	int idx_shot;
-
+	int idx_enemy;
+	
 	bool god_mode;
 
 	enum KEY_STATE { KEY_IDLE, KEY_DOWN, KEY_REPEAT, KEY_UP	};
