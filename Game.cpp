@@ -126,8 +126,8 @@ bool Game::Update()
 	int fx = 0, fy = 0;
 	if (keys[SDL_SCANCODE_ESCAPE] == KEY_DOWN)	return true;
 	if (keys[SDL_SCANCODE_F1] == KEY_DOWN)		god_mode = !god_mode;
-	if (keys[SDL_SCANCODE_UP] == KEY_REPEAT)	fy = -1;
-	if (keys[SDL_SCANCODE_DOWN] == KEY_REPEAT)	fy = 1;
+	if (keys[SDL_SCANCODE_UP] == KEY_REPEAT)	fy = -5;
+	if (keys[SDL_SCANCODE_DOWN] == KEY_REPEAT)	fy = 5;
 	//if (keys[SDL_SCANCODE_LEFT] == KEY_REPEAT)	fx = -1;
 	//if (keys[SDL_SCANCODE_RIGHT] == KEY_REPEAT)	fx = 1;
 	
