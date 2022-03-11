@@ -13,6 +13,7 @@
 #define WINDOW_HEIGHT	1080
 #define MAX_KEYS		256
 #define MAX_SHOTS		32
+#define MAX_ENEMIES		64
 
 class Game
 {
@@ -33,7 +34,7 @@ private:
 	SDL_Renderer *Renderer;
 	SDL_Texture *img_background, *img_player, * img_enemy, *img_boss,  *img_silence, *img_shot;
 
-	Entity Player, Enemy, Boss, Shots[MAX_SHOTS], Scene, Silence;
+	Entity Player, Boss, Shots[MAX_SHOTS], Enemy[MAX_ENEMIES], Scene, Silence;
 	int idx_shot;
 	int idx_enemy;
 	

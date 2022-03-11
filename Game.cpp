@@ -38,7 +38,7 @@ bool Game::Init()
 	Player.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT/(2) - 52, 82, 104, 5);
 	idx_shot = 0;
 	Silence.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
-	Enemy.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
+	
 	int w;
 	SDL_QueryTexture(img_background, NULL, NULL, &w, NULL);
 	Scene.Init(0, 0, w, WINDOW_HEIGHT, 4);
@@ -46,6 +46,7 @@ bool Game::Init()
 
 	return true;
 }
+
 bool Game::LoadImages()
 {
 	if(IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG)
@@ -157,6 +158,11 @@ bool Game::Update()
 		idx_shot++;
 		idx_shot %= MAX_SHOTS;
 	}
+	if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN) {
+		Enemy[idx_enemy].Init(WINDOW_WIDTH, WINDOW_HEIGHT >> 2, 104, 82, 5);
+		//idx_enemy++;
+		//idx_enemy %= MAX_ENEMIES;
+	}
 
 	//Player update
 	Player.Move(fx, fy);
@@ -165,11 +171,9 @@ bool Game::Update()
 	Silence.Move(1, 0);
 
 	//Enemy update
-	Enemy.Move(2, 0);
+	Enemy[idx_enemy].Move(-1, 0);
 
 	//if (Shots[idx_shot--].GetX() =  {
-
-	
 
 	//Shots update
 	for (int i = 0; i < MAX_SHOTS; ++i)
@@ -210,7 +214,7 @@ void Game::Draw()
 	SDL_RenderCopy(Renderer, img_silence, NULL, &rc);
 
 	//Draw enemy
-	Enemy.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+	Enemy[idx_enemy].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 	SDL_RenderCopy(Renderer, img_enemy, NULL, &rc);
 	
 	//Draw shots
