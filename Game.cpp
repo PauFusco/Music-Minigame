@@ -25,6 +25,7 @@ bool Game::Init()
 		SDL_Log("Unable to create rendering context: %s", SDL_GetError());
 		return false;
 	}
+
 	//Initialize keys array
 	for (int i = 0; i < MAX_KEYS; ++i)
 		keys[i] = KEY_IDLE;
@@ -77,7 +78,7 @@ bool Game::LoadImages()
 		return false;
 	}
 
-	img_shot = SDL_CreateTextureFromSurface(Renderer, IMG_Load("shot.png"));
+	img_shot = SDL_CreateTextureFromSurface(Renderer, IMG_Load("bullet.png"));
 	if (img_shot == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
@@ -126,8 +127,8 @@ bool Game::Update()
 	int fx = 0, fy = 0;
 	if (keys[SDL_SCANCODE_ESCAPE] == KEY_DOWN)	return true;
 	if (keys[SDL_SCANCODE_F1] == KEY_DOWN)		god_mode = !god_mode;
-	if (keys[SDL_SCANCODE_UP] == KEY_REPEAT)	fy = -5;
-	if (keys[SDL_SCANCODE_DOWN] == KEY_REPEAT)	fy = 5;
+	if (keys[SDL_SCANCODE_UP] == KEY_DOWN)	fy = -20;
+	if (keys[SDL_SCANCODE_DOWN] == KEY_DOWN)	fy = 20;
 	//if (keys[SDL_SCANCODE_LEFT] == KEY_REPEAT)	fx = -1;
 	//if (keys[SDL_SCANCODE_RIGHT] == KEY_REPEAT)	fx = 1;
 	
@@ -147,8 +148,8 @@ bool Game::Update()
 
 
 	//Scene scroll
-	Scene.Move(-1, 0);
-	if (Scene.GetX() <= -Scene.GetWidth())	Scene.SetX(0);
+	//Scene.Move(-1, 0);
+	//if (Scene.GetX() <= -Scene.GetWidth())	Scene.SetX(0);
 	//Player update
 	Player.Move(fx, fy);
 
