@@ -128,12 +128,13 @@ bool Game::Update()
 	int fx = 0, fy = 0;
 	if (keys[SDL_SCANCODE_ESCAPE] == KEY_DOWN)	return true;
 	if (keys[SDL_SCANCODE_F1] == KEY_DOWN)		god_mode = !god_mode;
+	
 	if (Player.pos >= -2 && keys[SDL_SCANCODE_UP] == KEY_DOWN) {
-		fy = -20;
+		fy = -28;
 		Player.pos -= 1;
 	}
 	if (Player.pos <= 2 && keys[SDL_SCANCODE_DOWN] == KEY_DOWN) {
-		fy = 20;
+		fy = 28;
 		Player.pos += 1;
 	}
 	
