@@ -9,11 +9,12 @@ public:
 	void GetRect(int *posx, int *posy, int *w, int *h);
 	void SetX(int posx);
 	int  GetX();
+	int  GetY();
 	int  GetWidth();
 	void ShutDown(); 
 	bool IsAlive();
 	void Move(int dx, int dy);
-
+	int pos = 0;
 private:
 	int x, y;
 	int width, height;

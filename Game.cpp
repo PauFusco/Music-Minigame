@@ -35,7 +35,7 @@ bool Game::Init()
 		return false;
 
 	//Init variables
-	Player.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 82, 104, 5);
+	Player.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT/(2) - 52, 82, 104, 5);
 	idx_shot = 0;
 	Silence.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
 	Enemy.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
@@ -118,6 +118,7 @@ bool Game::Input()
 
 	return true;
 }
+
 bool Game::Update()
 {
 	//Read Input
@@ -127,10 +128,14 @@ bool Game::Update()
 	int fx = 0, fy = 0;
 	if (keys[SDL_SCANCODE_ESCAPE] == KEY_DOWN)	return true;
 	if (keys[SDL_SCANCODE_F1] == KEY_DOWN)		god_mode = !god_mode;
-	if (keys[SDL_SCANCODE_UP] == KEY_DOWN)	fy = -20;
-	if (keys[SDL_SCANCODE_DOWN] == KEY_DOWN)	fy = 20;
-	//if (keys[SDL_SCANCODE_LEFT] == KEY_REPEAT)	fx = -1;
-	//if (keys[SDL_SCANCODE_RIGHT] == KEY_REPEAT)	fx = 1;
+	if (Player.pos >= -2 && keys[SDL_SCANCODE_UP] == KEY_DOWN) {
+		fy = -20;
+		Player.pos -= 1;
+	}
+	if (Player.pos <= 2 && keys[SDL_SCANCODE_DOWN] == KEY_DOWN) {
+		fy = 20;
+		Player.pos += 1;
+	}
 	
 	if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN)
 	{
@@ -175,7 +180,7 @@ void Game::Draw()
 	SDL_Rect rc;
 
 	//Set the color used for drawing operations
-	SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
 	//Clear rendering target
 	SDL_RenderClear(Renderer);
 
