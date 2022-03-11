@@ -71,7 +71,13 @@ bool Game::LoadImages()
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
-	
+
+	img_boss = SDL_CreateTextureFromSurface(Renderer, IMG_Load("boss-base.png"));
+	if (img_enemy == NULL) {
+			SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
+			return false;
+	}
+
 	img_silence = SDL_CreateTextureFromSurface(Renderer, IMG_Load("silence.png"));
 	if (img_silence == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
@@ -92,10 +98,10 @@ void Game::Release()
 	SDL_DestroyTexture(img_player);
 	SDL_DestroyTexture(img_shot);
 	SDL_DestroyTexture(img_enemy);
+	SDL_DestroyTexture(img_boss);
 	SDL_DestroyTexture(img_silence);
 	IMG_Quit();
 	
-	//Clean up all SDL initialized subsystems
 	SDL_Quit();
 }
 bool Game::Input()
