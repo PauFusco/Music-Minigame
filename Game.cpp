@@ -129,12 +129,12 @@ bool Game::Update()
 	if (keys[SDL_SCANCODE_ESCAPE] == KEY_DOWN)	return true;
 	if (keys[SDL_SCANCODE_F1] == KEY_DOWN)		god_mode = !god_mode;
 	
-	if (Player.pos >= -2 && keys[SDL_SCANCODE_UP] == KEY_DOWN) {
-		fy = -28;
+	if (Player.pos >= -4 && keys[SDL_SCANCODE_UP] == KEY_DOWN) {
+		fy = -13;
 		Player.pos -= 1;
 	}
-	if (Player.pos <= 2 && keys[SDL_SCANCODE_DOWN] == KEY_DOWN) {
-		fy = 28;
+	if (Player.pos <= 4 && keys[SDL_SCANCODE_DOWN] == KEY_DOWN) {
+		fy = 13;
 		Player.pos += 1;
 	}
 	
@@ -144,18 +144,14 @@ bool Game::Update()
 		Player.GetRect(&x, &y, &w, &h);
 
 		//offset from player: dx, dy = [(29, 3), (29, 59)]
-		Shots[idx_shot].Init(x + 29, y + 3, 56, 20, 10);
+		Shots[idx_shot].Init(x + 29, y + 24, 56, 20, 10);
 		idx_shot++;
 		idx_shot %= MAX_SHOTS;
-		Shots[idx_shot].Init(x + 29, y + 59, 56, 20, 10);
+		Shots[idx_shot].Init(x + 29, y + 68, 56, 20, 10);
 		idx_shot++;
 		idx_shot %= MAX_SHOTS;
 	}
 
-
-	//Scene scroll
-	//Scene.Move(-1, 0);
-	//if (Scene.GetX() <= -Scene.GetWidth())	Scene.SetX(0);
 	//Player update
 	Player.Move(fx, fy);
 
@@ -164,6 +160,10 @@ bool Game::Update()
 
 	//Enemy update
 	Enemy.Move(2, 0);
+
+	if (Shots[idx_shot--].GetX() =  {
+
+	}
 
 	//Shots update
 	for (int i = 0; i < MAX_SHOTS; ++i)
