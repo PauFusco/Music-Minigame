@@ -161,9 +161,9 @@ bool Game::Update()
 	//Enemy update
 	Enemy.Move(2, 0);
 
-	if (Shots[idx_shot--].GetX() =  {
+	//if (Shots[idx_shot--].GetX() =  {
 
-	}
+	
 
 	//Shots update
 	for (int i = 0; i < MAX_SHOTS; ++i)
