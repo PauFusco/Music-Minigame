@@ -4,6 +4,8 @@ class Entity
 public:
 	Entity();
 	~Entity();
+	
+	int enemySpawnTimer = 6;
 
 	void Init(int posx, int posy, int w, int h, int s);
 	void GetRect(int *posx, int *posy, int *w, int *h);

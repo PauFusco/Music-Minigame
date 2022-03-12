@@ -20,7 +20,7 @@ class Game
 public:
 	Game();
 	~Game();
-
+	
 	bool Init();
 	bool LoadImages();
 	void Release();
@@ -37,6 +37,7 @@ private:
 	Entity Player, Boss, Shots[MAX_SHOTS], Enemy[MAX_ENEMIES], Scene, Silence;
 	int idx_shot;
 	int idx_enemy;
+	
 	
 	bool god_mode;
 
