@@ -161,7 +161,9 @@ bool Game::Update()
 	}
 
 	if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN) {
-		Enemy[idx_enemy].CreateFigure(Enemy[idx_enemy],2);
+		//Enemy[idx_enemy].CreateFigure(Enemy[idx_enemy],2);
+		//++idx_enemy;
+		Enemy[idx_enemy].spawnEnemies();
 		++idx_enemy;
 	}
 
@@ -202,7 +204,7 @@ void Game::Draw()
 
 	//Draw scene
 	Scene.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-	SDL_RenderCopy(Renderer, img_background, NULL, &rc);
+	//SDL_RenderCopy(Renderer, img_background, NULL, &rc);
 	// rc.x += rc.w;
 	// SDL_RenderCopy(Renderer, img_background, NULL, &rc);
 	

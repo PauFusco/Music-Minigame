@@ -62,7 +62,7 @@ void Entity::CreateFigure(Entity Enemy, int idx)
 	int width = 104, height = 82;
 	int speed = 5;
 
-	for (int i = 0; i < 14; i++) {
+	for (int i = 1; i < 14; i++) {
 		if (idx != i) {
 			y -= 60;
 		}
@@ -90,26 +90,27 @@ void Entity::CreateFigure(Entity Enemy, int idx)
 	*/
 }
 
-/*
-void spawnEnemies()
+
+void Entity::spawnEnemies()
 {
-	Entity* enemy;
+	int enemySpawnTimer = 5;
 
 	if (--enemySpawnTimer <= 0)
 	{
-		enemy = malloc(sizeof(Entity));
-		memset(enemy, 0, sizeof(Entity));
-		stage.fighterTail->next = enemy;
-		stage.fighterTail = enemy;
+		//enemy = malloc(sizeof(Entity));
+		//memset(enemy, 0, sizeof(Entity));
+		//stage.fighterTail->next = enemy;
+		//stage.fighterTail = enemy;
 
-		enemy->x = SCREEN_WIDTH;
-		enemy->y = rand() % SCREEN_HEIGHT;
-		enemy->texture = enemyTexture;
-		SDL_QueryTexture(enemy->texture, NULL, NULL, &enemy->w, &enemy->h);
-
-		enemy->dx = -(2 + (rand() % 4));
-
+		x = 1920;
+		y = 960 - 104 * (rand() % 13);
+		//enemy->texture = enemyTexture;
+		//SDL_QueryTexture(enemy->texture, NULL, NULL, &enemy->w, &enemy->h);
+		Init(x, y, 104, 82, 5);
+		/*int x = 1920, y = 960 - 104;
+		int width = 104, height = 82;
+		int speed = 5;
+		*/
 		enemySpawnTimer = 30 + (rand() % 60);
 	}
 }
-*/
