@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <math.h>
 
+
 Game::Game() {}
 Game::~Game(){}
 
@@ -158,10 +159,10 @@ bool Game::Update()
 		idx_shot++;
 		idx_shot %= MAX_SHOTS;
 	}
+
 	if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN) {
-		Enemy[idx_enemy].Init(WINDOW_WIDTH, WINDOW_HEIGHT >> 2, 104, 82, 5);
-		//idx_enemy++;
-		//idx_enemy %= MAX_ENEMIES;
+		Enemy[idx_enemy].CreateFigure(Enemy[idx_enemy],2);
+		++idx_enemy;
 	}
 
 	//Player update
@@ -186,6 +187,7 @@ bool Game::Update()
 	}
 	return false;
 }
+
 void Game::Draw()
 {
 	SDL_Rect rc;
@@ -201,8 +203,8 @@ void Game::Draw()
 	//Draw scene
 	Scene.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 	SDL_RenderCopy(Renderer, img_background, NULL, &rc);
-	rc.x += rc.w;
-	SDL_RenderCopy(Renderer, img_background, NULL, &rc);
+	// rc.x += rc.w;
+	// SDL_RenderCopy(Renderer, img_background, NULL, &rc);
 	
 	//Draw player
 	Player.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
@@ -214,9 +216,16 @@ void Game::Draw()
 	SDL_RenderCopy(Renderer, img_silence, NULL, &rc);
 
 	//Draw enemy
-	Enemy[idx_enemy].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-	SDL_RenderCopy(Renderer, img_enemy, NULL, &rc);
-	
+	for (int i = 0; i < MAX_ENEMIES; ++i)
+	{
+		if (Enemy[i].IsAlive())
+		{
+			Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+			SDL_RenderCopy(Renderer, img_enemy, NULL, &rc);
+			// if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+		}
+	}
+
 	//Draw shots
 	for (int i = 0; i < MAX_SHOTS; ++i)
 	{

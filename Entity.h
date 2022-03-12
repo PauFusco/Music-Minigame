@@ -14,6 +14,9 @@ public:
 	void ShutDown(); 
 	bool IsAlive();
 	void Move(int dx, int dy);
+	void CreateFigure(Entity Enemy, int idx);
+	void spawnEnemies();
+
 	int pos = 0;
 private:
 	int x, y;
@@ -21,4 +24,3 @@ private:
 	int speed;
 	bool is_alive;
 };
-
