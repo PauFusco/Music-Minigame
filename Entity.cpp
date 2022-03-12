@@ -93,6 +93,7 @@ void Entity::CreateFigure(Entity Enemy, int idx)
 
 void Entity::spawnEnemies()
 {
+	int enemySpawnTimer = 5;
 
 	if (--enemySpawnTimer <= 0)
 	{
