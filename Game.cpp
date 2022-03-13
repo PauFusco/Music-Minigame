@@ -90,8 +90,8 @@ bool Game::LoadImages()
 	if (img_silence == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
-	}
-	*/
+	}*/
+	
 	img_shot = SDL_CreateTextureFromSurface(Renderer, IMG_Load("bullet.png"));
 	if (img_shot == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
