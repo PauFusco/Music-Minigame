@@ -268,8 +268,8 @@ void Game::Draw()
 	}
 
 		//Update screen
-		SDL_RenderPresent(Renderer);
+	SDL_RenderPresent(Renderer);
 
-		SDL_Delay(10);	// 1000/10 = 100 fps max
+	SDL_Delay(10);	// 1000/10 = 100 fps max
 	
 }

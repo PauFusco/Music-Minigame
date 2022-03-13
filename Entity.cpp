@@ -91,7 +91,7 @@ void Entity::CreateFigure(Entity Enemy, int idx)
 
 bool Entity::spawnEnemies()
 {
-	if (enctr == 10) {
+	if (enctr == 100) {
 		return true;
 	}
 	enctr++;
