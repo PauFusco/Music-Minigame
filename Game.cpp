@@ -185,9 +185,9 @@ bool Game::Update()
 		{
 			Enemy[i].Move(-1, 0);
 			if (Enemy[i].GetX() > WINDOW_WIDTH)	Enemy[i].ShutDown();
-			if (SDL_HasIntersection(Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h), Shots[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h)) == true) {
+			//if (SDL_HasIntersection(Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h), Shots[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h)) == true) {
 
-			}
+			//}
 		}
 	}
 
