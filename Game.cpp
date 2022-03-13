@@ -177,14 +177,16 @@ bool Game::Update()
 		idx_shot++;
 		idx_shot %= MAX_SHOTS;
 	}
-
-	if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN) {
-		//Enemy[idx_enemy].CreateFigure(Enemy[idx_enemy],2);
-		//++idx_enemy;
-		Enemy[idx_enemy].Init(1920, 960-104, 82, 104, 10);
-		//++idx_enemy;
-		//idx_shot %= MAX_SHOTS;
-	}
+	
+	
+	//if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN) {
+		bool truth = Enemy[idx_enemy].spawnEnemies();
+		if (truth == true) {
+			Enemy[idx_enemy].Init (1920, 960 - 104 * (idx_enemy + 1), 82, 104, 10);
+			++idx_enemy;
+			idx_shot %= MAX_SHOTS;
+		}
+	
 
 	//Player update
 	Player.Move(fx, fy);

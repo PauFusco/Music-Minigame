@@ -89,29 +89,11 @@ void Entity::CreateFigure(Entity Enemy, int idx)
 	*/
 }
 
-void Entity::spawnEnemies()
+bool Entity::spawnEnemies()
 {
-	
+	if (enctr == 10) {
+		return true;
+	}
+	enctr++;
+	return false;
 }
-
-
-/*int enemySpawnTimer = 5;
-
-	if (--enemySpawnTimer <= 0)
-	{
-		//enemy = malloc(sizeof(Entity));
-		//memset(enemy, 0, sizeof(Entity));
-		//stage.fighterTail->next = enemy;
-		//stage.fighterTail = enemy;
-
-		x = 1920;
-		y = 960 - 104 * (rand() % 13);
-		//enemy->texture = enemyTexture;
-		//SDL_QueryTexture(enemy->texture, NULL, NULL, &enemy->w, &enemy->h);
-		Init(x, y, 104, 82, 5);
-		/*int x = 1920, y = 960 - 104;
-		int width = 104, height = 82;
-		int speed = 5;
-		//
-enemySpawnTimer = 30 + (rand() % 60);
-	}*/

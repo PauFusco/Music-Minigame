@@ -15,7 +15,7 @@ public:
 	bool IsAlive();
 	void Move(int dx, int dy);
 	void CreateFigure(Entity Enemy, int idx);
-	void spawnEnemies();
+	bool spawnEnemies();
 
 	int pos = 0;
 	int enctr = 0;
