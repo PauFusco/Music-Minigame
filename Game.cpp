@@ -68,8 +68,8 @@ bool Game::LoadImages()
 		return false;
 	}
 
-	img_enemy0 = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy.png"));
-	if (img_enemy0 == NULL) {
+	img_enemy = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy.png"));
+	if (img_enemy == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
@@ -105,7 +105,7 @@ void Game::Release()
 	SDL_DestroyTexture(img_background);
 	SDL_DestroyTexture(img_player);
 	SDL_DestroyTexture(img_shot);
-	SDL_DestroyTexture(img_enemy0);
+	SDL_DestroyTexture(img_enemy);
 	SDL_DestroyTexture(img_enemyEmp);
 	SDL_DestroyTexture(img_boss);
 	SDL_DestroyTexture(img_silence);
@@ -250,7 +250,7 @@ void Game::Draw()
 		{
 			//render the enemy
 			Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-			SDL_RenderCopy(Renderer, img_enemy0, NULL, &rc);
+			SDL_RenderCopy(Renderer, img_enemy, NULL, &rc);
 			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
 		}
 		else if (Enemy[i].IsAlive() && Enemy[i].IsEmp())

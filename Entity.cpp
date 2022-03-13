@@ -50,15 +50,16 @@ bool Entity::IsAlive()
 	return is_alive;
 }
 
+//not tried
 bool Entity::IsEmp()
 {
 	return is_emp;
 }
-
 bool Entity::SetEmp()
 {
 	return true;
 }
+
 
 void Entity::Move(int dx, int dy)
 {
@@ -66,6 +67,7 @@ void Entity::Move(int dx, int dy)
 	y += dy * speed;
 }
 
+//doesnt work
 int Entity::whichNote()
 {
 	noctr++;
@@ -95,6 +97,7 @@ int Entity::whichNote()
 	*/
 }
 
+//works
 bool Entity::spawnEnemies()
 {
 	if (enctr == 100) {
