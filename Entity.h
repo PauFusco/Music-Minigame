@@ -13,6 +13,10 @@ public:
 	int  GetWidth();
 	void ShutDown(); 
 	bool IsAlive();
+	
+	bool IsEmp();
+	bool SetEmp();
+	
 	void Move(int dx, int dy);
 	bool spawnEnemies();
 	int  whichNote();
@@ -25,4 +29,6 @@ private:
 	int width, height;
 	int speed;
 	bool is_alive;
+	
+	bool is_emp;
 };

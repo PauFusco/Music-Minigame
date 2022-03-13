@@ -50,13 +50,24 @@ bool Entity::IsAlive()
 	return is_alive;
 }
 
+bool Entity::IsEmp()
+{
+	return is_emp;
+}
+
+bool Entity::SetEmp()
+{
+	return true;
+}
+
 void Entity::Move(int dx, int dy)
 {
 	x += dx * speed;
 	y += dy * speed;
 }
 
-int Entity::whichNote() {
+int Entity::whichNote()
+{
 	noctr++;
 	if (noctr == 1) {
 		noctr++;
