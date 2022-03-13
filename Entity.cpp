@@ -56,42 +56,38 @@ void Entity::Move(int dx, int dy)
 	y += dy * speed;
 }
 
-void Entity::CreateFigure(Entity Enemy, int idx)
-{
-	int x = 1920, y = 960-104;
-	int width = 104, height = 82;
-	int speed = -5;
-
-	for (int i = 1; i < 14; i++) {
-		if (idx != i) {
-			y -= 60;
-		}
-		else {
-			Enemy.Init(x, y, width, height, speed);
-		}
+int Entity::whichNote() {
+	noctr++;
+	if (noctr == 1) {
+		noctr++;
+		return 2;
 	}
-
+	if (noctr == 2) {
+		noctr++;
+		return 5;
+	}
 	/*
 	IDX:
-	0 = DO
-	1 = RE
-	2 = MI
-	4 = FA
-	5 = SOL
-	6 = LA
-	7 = SI
-	8 = DO
-	9 = RE
-	10 = MI
-	11 = FA
-	12 = SOL
-	13 = LA
+	 DO = 0
+	 RE = 1
+	 MI = 2
+	 FA = 3
+	 SOL = 4
+	 LA = 5
+	 SI = 6
+	 DO = 7
+	 RE = 8
+	 MI = 9
+	 FA = 10
+	 SOL = 11
+	 LA = 12
 	*/
 }
 
 bool Entity::spawnEnemies()
 {
 	if (enctr == 100) {
+		enctr++;
 		return true;
 	}
 	enctr++;

@@ -14,11 +14,12 @@ public:
 	void ShutDown(); 
 	bool IsAlive();
 	void Move(int dx, int dy);
-	void CreateFigure(Entity Enemy, int idx);
 	bool spawnEnemies();
+	int  whichNote();
 
 	int pos = 0;
 	int enctr = 0;
+	int noctr = 0;
 private:
 	int x, y;
 	int width, height;

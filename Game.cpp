@@ -73,22 +73,7 @@ bool Game::LoadImages()
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
-	img_enemy1 = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy.png"));
-	if (img_enemy1 == NULL) {
-		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
-		return false;
-	}
-	img_enemy2 = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy.png"));
-	if (img_enemy2 == NULL) {
-		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
-		return false;
-	}
-	img_enemy3 = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy.png"));
-	if (img_enemy3 == NULL) {
-		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
-		return false;
-	}
-
+	
 	img_boss = SDL_CreateTextureFromSurface(Renderer, IMG_Load("boss-base.png"));
 	if (img_boss == NULL) {
 			SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
@@ -115,9 +100,6 @@ void Game::Release()
 	SDL_DestroyTexture(img_player);
 	SDL_DestroyTexture(img_shot);
 	SDL_DestroyTexture(img_enemy0);
-	SDL_DestroyTexture(img_enemy1);
-	SDL_DestroyTexture(img_enemy2);
-	SDL_DestroyTexture(img_enemy3);
 	SDL_DestroyTexture(img_boss);
 	SDL_DestroyTexture(img_silence);
 	IMG_Quit();
@@ -178,14 +160,15 @@ bool Game::Update()
 		idx_shot %= MAX_SHOTS;
 	}
 	
-	
-	//if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN) {
-		bool truth = Enemy[idx_enemy].spawnEnemies();
-		if (truth == true) {
-			Enemy[idx_enemy].Init (1920, 960 - 104 * (idx_enemy + 1), 82, 104, 10);
-			++idx_enemy;
-			idx_shot %= MAX_SHOTS;
-		}
+
+	bool truth = Enemy[idx_enemy].spawnEnemies();
+	//int note = Enemy[idx_enemy].whichNote();
+	if (truth == true) {
+		int note = Enemy[idx_enemy].whichNote();
+		Enemy[idx_enemy].Init (1920, 960 - (104 * note), 82, 104, 10);
+		++idx_enemy;
+		idx_enemy %= MAX_ENEMIES;
+	}
 	
 
 	//Player update
@@ -193,7 +176,8 @@ bool Game::Update()
 
 	//Silence update
 	Silence.Move(1, 0);
-
+	
+	SDL_Rect rc;
 
 	for (int i = 0; i < MAX_ENEMIES; ++i)
 	{
@@ -201,6 +185,9 @@ bool Game::Update()
 		{
 			Enemy[i].Move(-1, 0);
 			if (Enemy[i].GetX() > WINDOW_WIDTH)	Enemy[i].ShutDown();
+			if (SDL_HasIntersection(Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h), Shots[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h)) == true) {
+
+			}
 		}
 	}
 
@@ -256,7 +243,7 @@ void Game::Draw()
 			// if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
 		}
 	}
-		//Draw shots
+	//Draw shots
 	for (int i = 0; i < MAX_SHOTS; ++i)
 	{
 		if (Shots[i].IsAlive())
