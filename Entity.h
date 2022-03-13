@@ -18,6 +18,7 @@ public:
 	void spawnEnemies();
 
 	int pos = 0;
+	int enctr = 0;
 private:
 	int x, y;
 	int width, height;

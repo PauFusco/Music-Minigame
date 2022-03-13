@@ -181,8 +181,9 @@ bool Game::Update()
 	if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN) {
 		//Enemy[idx_enemy].CreateFigure(Enemy[idx_enemy],2);
 		//++idx_enemy;
-		Enemy[idx_enemy].spawnEnemies();
-		++idx_enemy;
+		Enemy[idx_enemy].Init(1920, 960-104, 82, 104, 10);
+		//++idx_enemy;
+		//idx_shot %= MAX_SHOTS;
 	}
 
 	//Player update
@@ -191,10 +192,15 @@ bool Game::Update()
 	//Silence update
 	Silence.Move(1, 0);
 
-	//Enemy update
-	Enemy[idx_enemy].Move(-1, 0);
 
-	//if (Shots[idx_shot--].GetX() =  {
+	for (int i = 0; i < MAX_ENEMIES; ++i)
+	{
+		if (Enemy[i].IsAlive())
+		{
+			Enemy[i].Move(-1, 0);
+			if (Enemy[i].GetX() > WINDOW_WIDTH)	Enemy[i].ShutDown();
+		}
+	}
 
 	//Shots update
 	for (int i = 0; i < MAX_SHOTS; ++i)
@@ -225,7 +231,7 @@ void Game::Draw()
 	SDL_RenderCopy(Renderer, img_background, NULL, &rc);
 	// rc.x += rc.w;
 	// SDL_RenderCopy(Renderer, img_background, NULL, &rc);
-	
+
 	//Draw player
 	Player.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 	SDL_RenderCopy(Renderer, img_player, NULL, &rc);
@@ -235,39 +241,20 @@ void Game::Draw()
 	Silence.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 	SDL_RenderCopy(Renderer, img_silence, NULL, &rc);
 
+
+
 	//Draw enemy
 	for (int i = 0; i < MAX_ENEMIES; ++i)
 	{
 		if (Enemy[i].IsAlive())
 		{
+			//Enemy[i].Init(1920, 960 - 104, 82, 104, 0);
 			Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 			SDL_RenderCopy(Renderer, img_enemy0, NULL, &rc);
 			// if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
 		}
-		
-		if (Enemy[i + 1].IsAlive())
-		{
-			Enemy[i + 1].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-			SDL_RenderCopy(Renderer, img_enemy1, NULL, &rc);
-			// if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-		}
-		
-		if (Enemy[i + 2].IsAlive())
-		{
-			Enemy[i + 2].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-			SDL_RenderCopy(Renderer, img_enemy2, NULL, &rc);
-			// if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-		}
-		
-		if (Enemy[i + 3].IsAlive())
-		{
-			Enemy[i + 3].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-			SDL_RenderCopy(Renderer, img_enemy3, NULL, &rc);
-			// if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-		}
 	}
-
-	//Draw shots
+		//Draw shots
 	for (int i = 0; i < MAX_SHOTS; ++i)
 	{
 		if (Shots[i].IsAlive())
@@ -278,8 +265,9 @@ void Game::Draw()
 		}
 	}
 
-	//Update screen
-	SDL_RenderPresent(Renderer);
+		//Update screen
+		SDL_RenderPresent(Renderer);
 
-	SDL_Delay(10);	// 1000/10 = 100 fps max
+		SDL_Delay(10);	// 1000/10 = 100 fps max
+	
 }

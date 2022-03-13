@@ -60,7 +60,7 @@ void Entity::CreateFigure(Entity Enemy, int idx)
 {
 	int x = 1920, y = 960-104;
 	int width = 104, height = 82;
-	int speed = 5;
+	int speed = -5;
 
 	for (int i = 1; i < 14; i++) {
 		if (idx != i) {
@@ -70,7 +70,6 @@ void Entity::CreateFigure(Entity Enemy, int idx)
 			Enemy.Init(x, y, width, height, speed);
 		}
 	}
-
 
 	/*
 	IDX:
@@ -90,10 +89,13 @@ void Entity::CreateFigure(Entity Enemy, int idx)
 	*/
 }
 
-
 void Entity::spawnEnemies()
 {
-	int enemySpawnTimer = 5;
+	
+}
+
+
+/*int enemySpawnTimer = 5;
 
 	if (--enemySpawnTimer <= 0)
 	{
@@ -110,7 +112,6 @@ void Entity::spawnEnemies()
 		/*int x = 1920, y = 960 - 104;
 		int width = 104, height = 82;
 		int speed = 5;
-		*/
-		enemySpawnTimer = 30 + (rand() % 60);
-	}
-}
+		//
+enemySpawnTimer = 30 + (rand() % 60);
+	}*/
