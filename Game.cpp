@@ -237,10 +237,10 @@ void Game::Draw()
 	{
 		if (Enemy[i].IsAlive())
 		{
-			//Enemy[i].Init(1920, 960 - 104, 82, 104, 0);
+			//render the enemy
 			Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 			SDL_RenderCopy(Renderer, img_enemy0, NULL, &rc);
-			// if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
 		}
 	}
 	//Draw shots
