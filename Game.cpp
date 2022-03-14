@@ -316,6 +316,7 @@ bool Game::Update()
 	return false;
 }
 
+/*
 void Game::Start()
 {
 	SDL_Rect rc;
@@ -335,6 +336,7 @@ void Game::End()
 
 	SDL_Delay(3000);
 }
+*/
 
 void Game::Draw()
 {
@@ -458,5 +460,4 @@ void Game::Draw()
 		SDL_RenderPresent(Renderer);
 
 		SDL_Delay(10);	// 1000/10 = 100 fps max
-	
 }
