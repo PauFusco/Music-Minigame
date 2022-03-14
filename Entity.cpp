@@ -1,5 +1,7 @@
 #include "Entity.h"
 #include <iostream>
+#include <cstdlib>
+#include <time.h>
 
 
 Entity::Entity()
@@ -78,6 +80,9 @@ void Entity::Move(int dx, int dy)
 //Enemy count: 10
 int Entity::whichNote()
 {
+	srand(time(NULL));
+	noctr = rand() % 11;
+
 	if (noctr == 1) {
 		++noctr;
 		return 2;
