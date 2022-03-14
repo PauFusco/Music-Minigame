@@ -15,6 +15,7 @@
 #define MAX_KEYS		256
 #define MAX_SHOTS		32
 #define MAX_ENEMIES		64
+#define MAX_HP			3
 
 class Game
 {
@@ -33,12 +34,13 @@ public:
 private:
 	SDL_Window *Window;
 	SDL_Renderer *Renderer;
-	SDL_Texture *img_background, *img_player, * img_enemy, *img_enemyEmp, *img_boss, *img_silence, *img_shot;
+	SDL_Texture *img_background, *img_player, * img_enemy, *img_enemyEmp, *img_boss, *img_silence, *img_shot, *img_HP;
 
-	Entity Player, Boss, Shots[MAX_SHOTS], Enemy[MAX_ENEMIES], Scene, Silence;
+	Entity Player, Boss, Shots[MAX_SHOTS], Enemy[MAX_ENEMIES], Scene, Silence, HP[MAX_HP];
 	
 	int idx_shot;
 	int idx_enemy;
+	int idx_HP;
 	
 	bool god_mode;
 

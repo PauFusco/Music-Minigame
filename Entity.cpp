@@ -50,7 +50,7 @@ bool Entity::IsAlive()
 	return is_alive;
 }
 
-//try this:
+//Boss is ALIVE
 void Entity::enBoss() {
 	is_boss = true;
 }

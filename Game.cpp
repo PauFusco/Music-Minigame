@@ -44,7 +44,10 @@ bool Game::Init()
 	SDL_QueryTexture(img_background, NULL, NULL, &w, NULL);
 	Scene.Init(0, 0, w, WINDOW_HEIGHT, 4);
 	god_mode = false;
-
+	for (int i = 0; i < MAX_HP; ++i)
+	{
+		HP[i].Init(0 + (50 * i), 0, 41, 52, 0);
+	}
 	return true;
 }
 
@@ -63,6 +66,12 @@ bool Game::LoadImages()
 	}
 	
 	img_player = SDL_CreateTextureFromSurface(Renderer, IMG_Load("player-base.png"));
+	if (img_player == NULL) {
+		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
+		return false;
+	}
+	
+	img_HP = SDL_CreateTextureFromSurface(Renderer, IMG_Load("player-base.png"));
 	if (img_player == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
@@ -154,10 +163,10 @@ bool Game::Update()
 		Player.GetRect(&x, &y, &w, &h);
 
 		//offset from player: dx, dy = [(29, 3), (29, 59)]
-		Shots[idx_shot].Init(x + 29, y + 24, 56, 20, 5);
+		Shots[idx_shot].Init(x + 29, y + 24, 56, 20, 10);
 		idx_shot++;
 		idx_shot %= MAX_SHOTS;
-		Shots[idx_shot].Init(x + 29, y + 68, 56, 20, 5);
+		Shots[idx_shot].Init(x + 29, y + 68, 56, 20, 10);
 		idx_shot++;
 		idx_shot %= MAX_SHOTS;
 		}
@@ -165,20 +174,23 @@ bool Game::Update()
 
 	bool truth = Enemy[idx_enemy].spawnEnemies();
 	
-	if (truth == true && Enemy[63].whichNote() != 50) {
+	if (truth == true && Enemy[63].whichNote() != 50)
+	{
 		int note = Enemy[63].whichNote();
 		Enemy[idx_enemy].Init (1920, 960 - (88 * note), 82, 104, 10);
 		
 		++idx_enemy;
 		idx_enemy %= MAX_ENEMIES;
 	}
-	else if (truth == true && Enemy[63].whichNote() == 50){
+	else if (truth == true && Enemy[63].whichNote() == 50)
+	{
 		Boss.Init (1920, 0, 640, 1080, 1);
 		Boss.enBoss();
-		Boss.HP = 50;
 	}
 
-	if (Boss.askBoss() && Boss.GetX() > 1280){
+	//Move boss until in position
+	if (Boss.askBoss() && Boss.GetX() > 1280)
+	{
 		Boss.Move(-1, 0);
 	}
 	
@@ -216,9 +228,9 @@ bool Game::Update()
 		{
 			if (Enemy[j].GetX() == Shots[i].GetX())
 			{
-				Enemy[j].SetEmp();
 				Shots[i].ShutDown();
 				
+				Enemy[j].SetEmp();
 			}
 		}
 	}
@@ -297,8 +309,37 @@ void Game::Draw()
 		}
 	}
 
+	//Draw HP
+	if (Player.HP == 30)
+	{
+		for (int i = 0; i < MAX_HP; ++i)
+		{
+			HP[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+			SDL_RenderCopy(Renderer, img_player, NULL, &rc);
+			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+		}
+	
+	}
+	else if (Player.HP == 20)
+	{
+		for (int i = 0; i < MAX_HP - 1; ++i)
+		{
+			HP[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+			SDL_RenderCopy(Renderer, img_player, NULL, &rc);
+			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+		}
+	}
+	else if (Player.HP == 10)
+	{
+		for (int i = 0; i < MAX_HP - 2; ++i)
+		{
+			HP[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+			SDL_RenderCopy(Renderer, img_player, NULL, &rc);
+			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+		}
+	}
 	//Update screen
 	SDL_RenderPresent(Renderer);
 
-	//SDL_Delay(10);	// 1000/10 = 100 fps max
+	SDL_Delay(10);	// 1000/10 = 100 fps max
 }
