@@ -143,30 +143,32 @@ bool Game::Update()
 	int fx = 0, fy = 0;
 	if (keys[SDL_SCANCODE_ESCAPE] == KEY_DOWN)	return true;
 	if (keys[SDL_SCANCODE_F1] == KEY_DOWN)		god_mode = !god_mode;
+	
 	if (Boss.GetX() <= 1280) {
 		if (keys[SDL_SCANCODE_UP] == KEY_REPEAT)	fy = -1;
 		if (keys[SDL_SCANCODE_DOWN] == KEY_REPEAT)	fy = 1;
-	}
-	if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN)
-	{
+		
+		if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN)
+		{
 		int x, y, w, h;
 		Player.GetRect(&x, &y, &w, &h);
 
 		//offset from player: dx, dy = [(29, 3), (29, 59)]
-		Shots[idx_shot].Init(x + 29, y + 24, 56, 20, 10);
+		Shots[idx_shot].Init(x + 29, y + 24, 56, 20, 5);
 		idx_shot++;
 		idx_shot %= MAX_SHOTS;
-		Shots[idx_shot].Init(x + 29, y + 68, 56, 20, 10);
+		Shots[idx_shot].Init(x + 29, y + 68, 56, 20, 5);
 		idx_shot++;
 		idx_shot %= MAX_SHOTS;
+		}
 	}
-	
 
 	bool truth = Enemy[idx_enemy].spawnEnemies();
 	
 	if (truth == true && Enemy[63].whichNote() != 50) {
 		int note = Enemy[63].whichNote();
 		Enemy[idx_enemy].Init (1920, 960 - (88 * note), 82, 104, 10);
+		
 		++idx_enemy;
 		idx_enemy %= MAX_ENEMIES;
 	}
@@ -179,7 +181,11 @@ bool Game::Update()
 	if (Boss.askBoss() && Boss.GetX() > 1280){
 		Boss.Move(-1, 0);
 	}
-
+	for (int i = 0; i < MAX_ENEMIES; ++i) {
+		if (Enemy[i].IsAlive() && !Enemy[i].IsEmp() && Enemy[i].GetX() < 460) {
+			Enemy[i].ShutDown();
+		}
+	}
 	//Player update
 	Player.Move(fx, fy);
 
@@ -289,5 +295,4 @@ void Game::Draw()
 	SDL_RenderPresent(Renderer);
 
 	SDL_Delay(10);	// 1000/10 = 100 fps max
-	
 }

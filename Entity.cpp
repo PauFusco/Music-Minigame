@@ -75,11 +75,10 @@ void Entity::Move(int dx, int dy)
 	y += dy * speed;
 }
 
-//it works now
+//Enemy count: 10
 int Entity::whichNote()
 {
-
-		if (noctr == 1) {
+	if (noctr == 1) {
 		++noctr;
 		return 2;
 	}
@@ -123,6 +122,7 @@ int Entity::whichNote()
 	else if (noctr == 11) {
 		return 50;
 	}
+
 	++noctr;
 
 	/*
@@ -141,7 +141,7 @@ int Entity::whichNote()
 	*/
 }
 
-//works
+//Enemy spawn timer: 1 sec (every 100 frames)
 bool Entity::spawnEnemies()
 {
 	if (enctr == 100) {
