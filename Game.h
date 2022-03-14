@@ -2,11 +2,11 @@
 
 #include "SDL/include/SDL.h"
 #include "SDL_image/include/SDL_image.h"
-//#include "SDL_mixer\include\SDL_mixer.h"
+#include "SDL_mixer\include\SDL_mixer.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
 #pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
-//#pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib")
+#pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib")
 
 #include "Entity.h"
 
@@ -34,7 +34,8 @@ public:
 private:
 	SDL_Window *Window;
 	SDL_Renderer *Renderer;
-	SDL_Texture *img_background, *img_player, * img_enemy, *img_enemyEmp, *img_boss, *img_silence, *img_shot, *img_HP;
+	SDL_Texture *img_background, *img_player, *img_enemy, *img_enemyEmp, *img_boss, *img_silence, *img_shot, *img_HP;
+	Mix_Music* mix_oscarmasterpiece;
 
 	Entity Player, Boss, Shots[MAX_SHOTS], Enemy[MAX_ENEMIES], Scene, Silence, HP[MAX_HP];
 	

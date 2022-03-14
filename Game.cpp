@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <math.h>
 
+using namespace std;
 
 Game::Game() {}
 Game::~Game(){}
@@ -26,6 +27,9 @@ bool Game::Init()
 		SDL_Log("Unable to create rendering context: %s", SDL_GetError());
 		return false;
 	}
+
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	
 
 	//Initialize keys array
 	for (int i = 0; i < MAX_KEYS; ++i)
@@ -86,13 +90,15 @@ bool Game::LoadImages()
 	}
 
 	img_enemyEmp = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy-hit.png"));
-	if (img_enemyEmp == NULL) {
+	if (img_enemyEmp == NULL)
+	{
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
 	
 	img_boss = SDL_CreateTextureFromSurface(Renderer, IMG_Load("boss-base.png"));
-	if (img_boss == NULL) {
+	if (img_boss == NULL)
+	{
 			SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 			return false;
 	}
@@ -104,10 +110,21 @@ bool Game::LoadImages()
 	}*/
 	
 	img_shot = SDL_CreateTextureFromSurface(Renderer, IMG_Load("bullet.png"));
-	if (img_shot == NULL) {
+	if (img_shot == NULL)
+	{
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
+
+	
+	mix_oscarmasterpiece = Mix_LoadMUS("gamemusic.wav");
+	Mix_PlayMusic(mix_oscarmasterpiece, -1 );
+	if (Mix_PlayMusic(mix_oscarmasterpiece, -1) == -1)
+	{
+		SDL_Log("Mix_PlayMusic: %s\n", Mix_GetError());
+	}
+
+
 	return true;
 }
 void Game::Release()
@@ -120,8 +137,11 @@ void Game::Release()
 	SDL_DestroyTexture(img_enemyEmp);
 	SDL_DestroyTexture(img_boss);
 	SDL_DestroyTexture(img_silence);
-	IMG_Quit();
 	
+	Mix_FreeMusic(mix_oscarmasterpiece);
+	
+	IMG_Quit();
+	Mix_Quit();
 	SDL_Quit();
 }
 bool Game::Input()
