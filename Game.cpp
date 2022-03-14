@@ -240,9 +240,10 @@ bool Game::Update()
 		{
 			Enemy[i].Move(-1, 0);
 			if (Enemy[i].GetX() > WINDOW_WIDTH)	Enemy[i].ShutDown();
+
 			for (int j = 0; j < MAX_SHOTS; ++j)
 			{
-				if ((20 > Enemy[i].GetY() - Shots[j].GetY() >  -84) && Enemy[i].GetX() - Shots[j].GetX() = 56)
+				if ((0 > Enemy[i].GetY() - Shots[j].GetY() > - 83) && Enemy[i].GetX() < Shots[j].GetX())
 				{
 					Shots[j].ShutDown();
 					Enemy[i].SetEmp();
