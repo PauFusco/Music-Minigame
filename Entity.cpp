@@ -78,7 +78,8 @@ void Entity::Move(int dx, int dy)
 //it works now
 int Entity::whichNote()
 {
-	if (noctr == 1) {
+
+		if (noctr == 1) {
 		++noctr;
 		return 2;
 	}
@@ -123,7 +124,7 @@ int Entity::whichNote()
 		return 50;
 	}
 	++noctr;
-	
+
 	/*
 	IDX:
 	 DO = 0

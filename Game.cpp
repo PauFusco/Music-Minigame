@@ -171,13 +171,13 @@ bool Game::Update()
 		idx_enemy %= MAX_ENEMIES;
 	}
 	else if (truth == true && Enemy[63].whichNote() == 50){
-		Boss.Init (1920, 0, 640, 1080, -1);
+		Boss.Init (1920, 0, 640, 1080, 1);
 		Boss.enBoss();
 		Boss.HP = 50;
 	}
 
 	if (Boss.askBoss() && Boss.GetX() > 1280){
-		Boss.Move(1, 0);
+		Boss.Move(-1, 0);
 	}
 
 	//Player update
@@ -202,16 +202,16 @@ bool Game::Update()
 	//Shots update
 	for (int i = 0; i < MAX_SHOTS; ++i)
 	{
-		for (int j = 0; j < MAX_ENEMIES; ++j) {
+		for (int j = 0; j < 12; ++j) {
 			/*if (SDL_HasIntersection(Enemy[j].GetRect(&rc.x, &rc.y, &rc.w, &rc.h), Shots[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h)) == true) {
 					//Shots[i].ShutDown();
 					//Enemy[j].SetEmp();
 			}*/
 			
-			/*if (Enemy[j].GetX() + 1044 == Shots[i].GetX()) {
+			if (Enemy[j].GetX() == Shots[i].GetX()) {
 				Shots[i].ShutDown();
 				Enemy[j].SetEmp();
-			}*/
+			}
 		}
 		if (Shots[i].IsAlive())
 		{
