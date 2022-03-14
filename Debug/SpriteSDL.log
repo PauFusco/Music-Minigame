@@ -1,3 +1,4 @@
 ﻿  Game.cpp
-C:\CITM\Project I\Project1\Music-Minigame\Game.cpp(216,11): warning C4101: 'rc': variable local sin referencia
-  SpriteSDL.vcxproj -> C:\CITM\Project I\Project1\Music-Minigame\Debug\SpriteSDL.exe
+C:\Users\marcf\OneDrive\Documents\GitHub\Music-Minigame\Game.cpp(231,11): warning C4804: '>': uso no seguro del tipo 'bool' en la operación
+C:\Users\marcf\OneDrive\Documents\GitHub\Music-Minigame\Game.cpp(216,11): warning C4101: 'rc': variable local sin referencia
+  SpriteSDL.vcxproj -> C:\Users\marcf\OneDrive\Documents\GitHub\Music-Minigame\Debug\SpriteSDL.exe

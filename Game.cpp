@@ -228,7 +228,7 @@ bool Game::Update()
 	{
 		for (int j = 0; j < MAX_ENEMIES; ++j)
 		{
-			if (Enemy[j].GetX() == Shots[i].GetX())
+			if (-1 > Enemy[j].GetX() - Shots[i].GetX() > 1)
 			{
 				Shots[i].ShutDown();
 				
