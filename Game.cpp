@@ -144,14 +144,8 @@ bool Game::Update()
 	if (keys[SDL_SCANCODE_ESCAPE] == KEY_DOWN)	return true;
 	if (keys[SDL_SCANCODE_F1] == KEY_DOWN)		god_mode = !god_mode;
 	
-	if (Player.pos >= -4 && keys[SDL_SCANCODE_UP] == KEY_DOWN) {
-		fy = -13;
-		Player.pos -= 1;
-	}
-	if (Player.pos <= 4 && keys[SDL_SCANCODE_DOWN] == KEY_DOWN) {
-		fy = 13;
-		Player.pos += 1;
-	}
+	if (keys[SDL_SCANCODE_UP] == KEY_REPEAT)	fy = -1;
+	if (keys[SDL_SCANCODE_DOWN] == KEY_REPEAT)	fy = 1;
 	
 	if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN)
 	{
