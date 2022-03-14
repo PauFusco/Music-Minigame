@@ -245,10 +245,11 @@ bool Game::Update()
 
 			for (int j = 0; j < MAX_SHOTS; ++j)
 			{
-				if ((20 > Enemy[i].GetY() - Shots[j].GetY() > - 104) && Enemy[i].GetX() < Shots[j].GetX())
+				if (Shots[j].GetY() + 20 > Enemy[i].GetY() && Enemy[i].GetY() + 104 > Shots[i].GetY() && Enemy[i].GetX() < Shots[j].GetX())
 				{
+					Enemy[i].ShutDown();
 					Shots[j].ShutDown();
-					Enemy[i].SetEmp();
+					Shots[j].Init(460, 0, 0, 0, 0);
 				}
 			}
 		}
