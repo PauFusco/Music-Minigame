@@ -41,7 +41,7 @@ bool Game::Init()
 	Scene.Init(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 	god_mode = false;
 	
-	Start();
+	//Start();
 	
 	//Init variables
 	Player.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT/(2) - 52, 82, 104, 5);

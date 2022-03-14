@@ -32,8 +32,8 @@ public:
 	bool Update();
 	void Draw();
 
-	void Start();
-	void End();
+	//void Start();
+	//void End();
 
 private:
 	SDL_Window *Window;
