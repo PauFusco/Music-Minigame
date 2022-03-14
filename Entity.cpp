@@ -81,11 +81,10 @@ void Entity::Move(int dx, int dy)
 int Entity::whichNote()
 {
 	srand(time(NULL));
-	noctr = rand() % 11;
 
 	if (noctr == 1) {
 		++noctr;
-		return 2;
+		return rand() % 11;
 	}
 	else if (noctr == 2) {
 		++noctr;
