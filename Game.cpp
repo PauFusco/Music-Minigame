@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "SDL2_mixer.h"
 #include <math.h>
 
 
