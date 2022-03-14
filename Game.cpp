@@ -172,7 +172,7 @@ bool Game::Update()
 	
 	if (truth == true) {
 		int note = Enemy[63].whichNote();
-		Enemy[idx_enemy].Init (1920, 960 - (100 * note), 82, 104, 10);
+		Enemy[idx_enemy].Init (1920, 960 - (88 * note), 82, 104, 10);
 		++idx_enemy;
 		idx_enemy %= MAX_ENEMIES;
 	}
@@ -199,14 +199,15 @@ bool Game::Update()
 	for (int i = 0; i < MAX_SHOTS; ++i)
 	{
 		for (int j = 0; j < MAX_ENEMIES; ++j) {
-			//if (SDL_HasIntersection(Enemy[j].GetRect(&rc.x, &rc.y, &rc.w, &rc.h), Shots[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h)) == true) {
+			/*if (SDL_HasIntersection(Enemy[j].GetRect(&rc.x, &rc.y, &rc.w, &rc.h), Shots[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h)) == true) {
 					//Shots[i].ShutDown();
 					//Enemy[j].SetEmp();
-			//}
-			if (Enemy[j].GetX() + 1044 == Shots[i].GetX()) {
+			}*/
+			
+			/*if (Enemy[j].GetX() + 1044 == Shots[i].GetX()) {
 				Shots[i].ShutDown();
 				Enemy[j].SetEmp();
-			}
+			}*/
 		}
 		if (Shots[i].IsAlive())
 		{

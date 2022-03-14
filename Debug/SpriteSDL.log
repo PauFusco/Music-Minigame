@@ -1,3 +1,3 @@
-﻿  Entity.cpp
-C:\CITM\Project I\Project1\Music-Minigame\Entity.cpp(129): warning C4715: 'Entity::whichNote': no todas las rutas de acceso de control devuelven un valor
+﻿  Game.cpp
+C:\CITM\Project I\Project1\Music-Minigame\Game.cpp(186,11): warning C4101: 'rc': variable local sin referencia
   SpriteSDL.vcxproj -> C:\CITM\Project I\Project1\Music-Minigame\Debug\SpriteSDL.exe
