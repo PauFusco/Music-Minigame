@@ -205,6 +205,18 @@ bool Game::Update()
 			}
 		}
 	}
+
+	while (Boss.IsAlive()) {
+		for (int i = 0; i < MAX_SHOTS; ++i) {
+			if (Shots[i].GetX() == 1280) {
+				Boss.HP--;
+				Shots[i].ShutDown();
+				if (Boss.HP == 0) {
+					Boss.ShutDown();
+				}
+			}
+		}
+	}
 	
 	//Player update
 	Player.Move(fx, fy);
@@ -247,6 +259,7 @@ bool Game::Update()
 		}
 		
 	}
+
 	return false;
 }
 
