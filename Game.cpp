@@ -118,9 +118,9 @@ void Game::Release()
 	SDL_DestroyTexture(img_silence);
 	
 	Mix_FreeMusic(mix_oscarmasterpiece);
-	
+		Mix_Quit();
 	IMG_Quit();
-	Mix_Quit();
+
 	
 	SDL_Quit();
 }
