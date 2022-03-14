@@ -172,7 +172,7 @@ bool Game::Update()
 	
 	if (truth == true) {
 		int note = Enemy[63].whichNote();
-		Enemy[idx_enemy].Init (1920, 960 - (104 * note), 82, 104, 10);
+		Enemy[idx_enemy].Init (1920, 960 - (100 * note), 82, 104, 10);
 		++idx_enemy;
 		idx_enemy %= MAX_ENEMIES;
 	}
@@ -198,18 +198,23 @@ bool Game::Update()
 	//Shots update
 	for (int i = 0; i < MAX_SHOTS; ++i)
 	{
+		for (int j = 0; j < MAX_ENEMIES; ++j) {
+			//if (SDL_HasIntersection(Enemy[j].GetRect(&rc.x, &rc.y, &rc.w, &rc.h), Shots[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h)) == true) {
+					//Shots[i].ShutDown();
+					//Enemy[j].SetEmp();
+			//}
+			if (Enemy[j].GetX() + 1044 == Shots[i].GetX()) {
+				Shots[i].ShutDown();
+				Enemy[j].SetEmp();
+			}
+		}
 		if (Shots[i].IsAlive())
 		{
 			Shots[i].Move(1, 0);
 			if (Shots[i].GetX() > WINDOW_WIDTH)	Shots[i].ShutDown();
 
 		}
-		for (int j = 0; j < MAX_ENEMIES; ++j) {
-			//if (SDL_HasIntersection(Enemy[j].GetRect(&rc.x, &rc.y, &rc.w, &rc.h), Shots[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h)) == true) {
-					//Shots[i].ShutDown();
-					//Enemy[j].SetEmp();
-			//}
-		}
+		
 	}
 	return false;
 }
@@ -243,7 +248,7 @@ void Game::Draw()
 
 
 
-	//Draw enemy
+	//Draw enemy Emp doesnt work
 	for (int i = 0; i < MAX_ENEMIES; ++i)
 	{
 		if (Enemy[i].IsAlive() && !Enemy[i].IsEmp())
@@ -271,7 +276,7 @@ void Game::Draw()
 		}
 	}
 
-		//Update screen
+	//Update screen
 	SDL_RenderPresent(Renderer);
 
 	SDL_Delay(10);	// 1000/10 = 100 fps max

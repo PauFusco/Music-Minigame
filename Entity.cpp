@@ -70,7 +70,6 @@ void Entity::Move(int dx, int dy)
 //it works now
 int Entity::whichNote()
 {
-	
 	if (noctr == 1) {
 		++noctr;
 		return 2;
@@ -82,6 +81,34 @@ int Entity::whichNote()
 	else if (noctr == 3) {
 		++noctr;
 		return 3;
+	}
+	else if (noctr == 4) {
+		++noctr;
+		return 7;
+	}
+	else if (noctr == 5) {
+		++noctr;
+		return 5;
+	}
+	else if (noctr == 6) {
+		++noctr;
+		return 5;
+	}
+	else if (noctr == 7) {
+		++noctr;
+		return 9;
+	}
+	else if (noctr == 8) {
+		++noctr;
+		return 6;
+	}
+	else if (noctr == 9) {
+		++noctr;
+		return 4;
+	}
+	else if (noctr == 10) {
+		++noctr;
+		return 6;
 	}
 	++noctr;
 	
@@ -98,8 +125,6 @@ int Entity::whichNote()
 	 RE = 8
 	 MI = 9
 	 FA = 10
-	 SOL = 11
-	 LA = 12
 	*/
 }
 
