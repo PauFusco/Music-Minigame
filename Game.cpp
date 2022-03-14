@@ -1,7 +1,6 @@
 #include "Game.h"
 #include <math.h>
 
-using namespace std;
 
 Game::Game() {}
 Game::~Game(){}
@@ -28,9 +27,6 @@ bool Game::Init()
 		return false;
 	}
 
-	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-	
-
 	//Initialize keys array
 	for (int i = 0; i < MAX_KEYS; ++i)
 		keys[i] = KEY_IDLE;
@@ -54,6 +50,11 @@ bool Game::Init()
 	{
 		HP[i].Init(0 + (50 * i), 0, 41, 52, 0);
 	}
+
+	Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
+	mix_oscarmasterpiece = Mix_LoadMUS("gamemusic.wav");
+	Mix_PlayMusic(mix_oscarmasterpiece, -1);
+
 	return true;
 }
 
@@ -89,40 +90,18 @@ bool Game::LoadImages()
 		return false;
 	}
 
-	img_enemyEmp = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy-hit.png"));
-	if (img_enemyEmp == NULL)
-	{
-		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
-		return false;
-	}
-	
 	img_boss = SDL_CreateTextureFromSurface(Renderer, IMG_Load("boss-base.png"));
-	if (img_boss == NULL)
-	{
+	if (img_boss == NULL) {
 			SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 			return false;
 	}
-
-	/*img_silence = SDL_CreateTextureFromSurface(Renderer, IMG_Load("silence.png"));
-	if (img_silence == NULL) {
-		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
-		return false;
-	}*/
 	
 	img_shot = SDL_CreateTextureFromSurface(Renderer, IMG_Load("bullet.png"));
-	if (img_shot == NULL)
-	{
+	if (img_shot == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
 
-	
-	mix_oscarmasterpiece = Mix_LoadMUS("gamemusic.wav");
-	Mix_PlayMusic(mix_oscarmasterpiece, -1 );
-	if (Mix_PlayMusic(mix_oscarmasterpiece, -1) == -1)
-	{
-		SDL_Log("Mix_PlayMusic: %s\n", Mix_GetError());
-	}
 
 
 	return true;
@@ -142,6 +121,7 @@ void Game::Release()
 	
 	IMG_Quit();
 	Mix_Quit();
+	
 	SDL_Quit();
 }
 bool Game::Input()
@@ -196,20 +176,22 @@ bool Game::Update()
 	}
 
 	bool truth = Enemy[idx_enemy].spawnEnemies();
+
+		if (truth == true && Enemy[62].whichNote() != 50)
+		{
+			int note = Enemy[63].whichNote();
+			Enemy[idx_enemy].Init(1920, 960 - (88 * note), 82, 104, 10);
+
+			++idx_enemy;
+			idx_enemy %= MAX_ENEMIES;
+		}
+		else if (truth == true && Enemy[63].whichNote() == 50)
+		{
+			Boss.Init(1920, 0, 640, 1080, 1);
+			Boss.enBoss();
+		}
 	
-	if (truth == true && Enemy[62].whichNote() != 50)
-	{
-		int note = Enemy[63].whichNote();
-		Enemy[idx_enemy].Init (1920, 960 - (88 * note), 82, 104, 10);
-		
-		++idx_enemy;
-		idx_enemy %= MAX_ENEMIES;
-	}
-	else if (truth == true && Enemy[63].whichNote() == 50)
-	{
-		Boss.Init (1920, 0, 640, 1080, 1);
-		Boss.enBoss();
-	}
+	
 
 	//Move boss until in position
 	if (Boss.askBoss() && Boss.GetX() > 1280)
@@ -217,9 +199,8 @@ bool Game::Update()
 		Boss.Move(-1, 0);
 	}
 	
-
 	for (int i = 0; i < MAX_ENEMIES; ++i) {
-		if (Enemy[i].IsAlive() && Enemy[i].GetX() < 460) {
+		if (Enemy[i].IsAlive() && !Enemy[i].IsEmp() && Enemy[i].GetX() < 460) {
 			Enemy[i].ShutDown();
 			Player.HPlayer -= 10;
 			if (Player.HPlayer == 0) return true;
@@ -238,6 +219,13 @@ bool Game::Update()
 			}
 		}
 	}
+	
+	if (Boss.HBoss == 0)
+	{
+		Boss.ShutDown();
+	}
+	
+
 
 	//Player update
 	Player.Move(fx, fy);
@@ -248,20 +236,19 @@ bool Game::Update()
 
 	SDL_Rect rc;
 
-	//Hitbox
 	for (int i = 0; i < MAX_ENEMIES; ++i)
 	{
 		if (Enemy[i].IsAlive())
 		{
 			Enemy[i].Move(-1, 0);
 			if (Enemy[i].GetX() > WINDOW_WIDTH)	Enemy[i].ShutDown();
+
 			for (int j = 0; j < MAX_SHOTS; ++j)
 			{
-				if (Shots[j].GetY() + 20 > Enemy[i].GetY() && Enemy[i].GetY() + 104 > Shots[i].GetY() && Enemy[i].GetX() < Shots[j].GetX())
+				if ((20 > Enemy[i].GetY() - Shots[j].GetY() > - 104) && Enemy[i].GetX() < Shots[j].GetX())
 				{
-					Enemy[i].ShutDown();
 					Shots[j].ShutDown();
-					Shots[j].Init(460, 0, 0, 0, 0);
+					Enemy[i].SetEmp();
 				}
 			}
 		}
@@ -274,8 +261,10 @@ bool Game::Update()
 		if (Shots[i].IsAlive())
 		{
 			Shots[i].Move(1, 0);
-			if (0 > Shots[i].GetX() > WINDOW_WIDTH)	Shots[i].ShutDown();
+			if (Shots[i].GetX() > WINDOW_WIDTH)	Shots[i].ShutDown();
+
 		}
+		
 	}
 
 	return false;
@@ -314,7 +303,7 @@ void Game::Draw()
 		if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
 	}
 
-	//Draw enemy Emp doesnt work
+	//Draw enemy
 	for (int i = 0; i < MAX_ENEMIES; ++i)
 	{
 		if (Enemy[i].IsAlive() && !Enemy[i].IsEmp())
@@ -322,12 +311,6 @@ void Game::Draw()
 			//render the enemy
 			Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 			SDL_RenderCopy(Renderer, img_enemy, NULL, &rc);
-			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-		}
-		else if (Enemy[i].IsAlive() && Enemy[i].IsEmp())
-		{
-			Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-			SDL_RenderCopy(Renderer, img_enemyEmp, NULL, &rc);
 			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
 		}
 	}

@@ -28,16 +28,15 @@ public:
 	int HBoss = 50;
 	int pos = 0;
 	int enctr = 0;
-	int noctr = 1;
+	int noctr = 0;
 private:
 	int x, y;
 	int width, height;
 	int speed;
 	bool is_alive;
 
-	
-
 	bool is_boss = false;
 	
+
 	bool is_emp = false;
 };

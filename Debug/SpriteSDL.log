@@ -1,6 +1,4 @@
 ﻿  Game.cpp
-C:\Users\paufu\Documents\GitHub\Music-Minigame\Game.cpp(277,10): warning C4804: '>': uso no seguro del tipo 'bool' en la operación
-C:\Users\paufu\Documents\GitHub\Music-Minigame\Game.cpp(249,11): warning C4101: 'rc': variable local sin referencia
-  main.cpp
-  Generando código...
+C:\Users\paufu\Documents\GitHub\Music-Minigame\Game.cpp(248,13): warning C4804: '>': uso no seguro del tipo 'bool' en la operación
+C:\Users\paufu\Documents\GitHub\Music-Minigame\Game.cpp(237,11): warning C4101: 'rc': variable local sin referencia
   SpriteSDL.vcxproj -> C:\Users\paufu\Documents\GitHub\Music-Minigame\Debug\SpriteSDL.exe
