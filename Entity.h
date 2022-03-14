@@ -39,5 +39,5 @@ private:
 
 	bool is_boss = false;
 	
-	bool is_emp;
+	bool is_emp = false;
 };

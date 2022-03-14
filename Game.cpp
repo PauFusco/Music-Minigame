@@ -177,7 +177,7 @@ bool Game::Update()
 
 	bool truth = Enemy[idx_enemy].spawnEnemies();
 	
-	if (truth == true && Enemy[63].whichNote() != 50)
+	if (truth == true && Enemy[62].whichNote() != 50)
 	{
 		int note = Enemy[63].whichNote();
 		Enemy[idx_enemy].Init (1920, 960 - (88 * note), 82, 104, 10);
@@ -197,8 +197,9 @@ bool Game::Update()
 		Boss.Move(-1, 0);
 	}
 	
+
 	for (int i = 0; i < MAX_ENEMIES; ++i) {
-		if (Enemy[i].IsAlive() && !Enemy[i].IsEmp() && Enemy[i].GetX() < 460) {
+		if (Enemy[i].IsAlive() && Enemy[i].GetX() < 460) {
 			Enemy[i].ShutDown();
 			Player.HPlayer -= 10;
 			if (Player.HPlayer == 0) return true;
@@ -217,13 +218,6 @@ bool Game::Update()
 			}
 		}
 	}
-	
-	if (Boss.HBoss == 0)
-	{
-		Boss.ShutDown();
-	}
-	
-
 
 	//Player update
 	Player.Move(fx, fy);
@@ -234,19 +228,20 @@ bool Game::Update()
 
 	SDL_Rect rc;
 
+	//Hitbox
 	for (int i = 0; i < MAX_ENEMIES; ++i)
 	{
 		if (Enemy[i].IsAlive())
 		{
 			Enemy[i].Move(-1, 0);
 			if (Enemy[i].GetX() > WINDOW_WIDTH)	Enemy[i].ShutDown();
-
 			for (int j = 0; j < MAX_SHOTS; ++j)
 			{
-				if ((0 > Enemy[i].GetY() - Shots[j].GetY() > - 83) && Enemy[i].GetX() < Shots[j].GetX())
+				if (Shots[j].GetY() + 20 > Enemy[i].GetY() && Enemy[i].GetY() + 104 > Shots[i].GetY() && Enemy[i].GetX() < Shots[j].GetX())
 				{
+					Enemy[i].ShutDown();
 					Shots[j].ShutDown();
-					Enemy[i].SetEmp();
+					Shots[j].Init(460, 0, 0, 0, 0);
 				}
 			}
 		}
@@ -259,10 +254,8 @@ bool Game::Update()
 		if (Shots[i].IsAlive())
 		{
 			Shots[i].Move(1, 0);
-			if (Shots[i].GetX() > WINDOW_WIDTH)	Shots[i].ShutDown();
-
+			if (0 > Shots[i].GetX() > WINDOW_WIDTH)	Shots[i].ShutDown();
 		}
-		
 	}
 
 	return false;

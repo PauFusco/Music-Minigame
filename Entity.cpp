@@ -122,8 +122,7 @@ int Entity::whichNote()
 	else if (noctr == 11) {
 		return 50;
 	}
-
-	++noctr;
+	noctr++;
 
 	/*
 	IDX:
