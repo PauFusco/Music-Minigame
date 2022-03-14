@@ -23,7 +23,7 @@ public:
 
 	int pos = 0;
 	int enctr = 0;
-	int noctr = 0;
+	int noctr = 1;
 private:
 	int x, y;
 	int width, height;

@@ -67,18 +67,24 @@ void Entity::Move(int dx, int dy)
 	y += dy * speed;
 }
 
-//doesnt work
+//it works now
 int Entity::whichNote()
 {
-	noctr++;
+	
 	if (noctr == 1) {
-		noctr++;
+		++noctr;
 		return 2;
 	}
-	if (noctr == 2) {
-		noctr++;
+	else if (noctr == 2) {
+		++noctr;
 		return 5;
 	}
+	else if (noctr == 3) {
+		++noctr;
+		return 3;
+	}
+	++noctr;
+	
 	/*
 	IDX:
 	 DO = 0

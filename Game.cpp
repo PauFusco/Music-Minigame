@@ -38,7 +38,7 @@ bool Game::Init()
 	//Init variables
 	Player.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT/(2) - 52, 82, 104, 5);
 	idx_shot = 0;
-	Silence.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
+	//Silence.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
 	
 	int w;
 	SDL_QueryTexture(img_background, NULL, NULL, &w, NULL);
@@ -169,9 +169,9 @@ bool Game::Update()
 	
 
 	bool truth = Enemy[idx_enemy].spawnEnemies();
-	//int note = Enemy[idx_enemy].whichNote();
+	
 	if (truth == true) {
-		int note = Enemy[idx_enemy].whichNote();
+		int note = Enemy[63].whichNote();
 		Enemy[idx_enemy].Init (1920, 960 - (104 * note), 82, 104, 10);
 		++idx_enemy;
 		idx_enemy %= MAX_ENEMIES;
