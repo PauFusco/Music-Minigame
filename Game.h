@@ -32,10 +32,13 @@ public:
 	bool Update();
 	void Draw();
 
+	void Start();
+	void End();
+
 private:
 	SDL_Window *Window;
 	SDL_Renderer *Renderer;
-	SDL_Texture *img_background, *img_player, * img_player2, * img_enemy1, * img_enemy2, * img_enemy3, * img_enemy4, *img_enemyEmp, *img_boss, *img_silence, *img_shot, *img_HP;
+	SDL_Texture *img_background, *img_backgroundc, *img_player, * img_player2, * img_enemy1, * img_enemy2, * img_enemy3, * img_enemy4, *img_enemyEmp, *img_boss, *img_silence, *img_shot, *img_HP, *img_start, *img_end;
 	Mix_Music* mix_oscarmasterpiece;
 
 	Entity Player, Boss, Shots[MAX_SHOTS], Enemy[MAX_ENEMIES], Scene, Silence, HP[MAX_HP];

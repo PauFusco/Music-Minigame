@@ -8,4 +8,4 @@ Down_Arrow: Move DOWN
 Space: Shoot
 F1: God Mode (no damage + hitboxes are shown)
 
-We don't recommend to spam shoot button. Game explodes. Do it at your own risk. (It adds to the difficulty)
+We don't recommend to spam shoot button. Game explodes. Do it at your own risk. (It adds to the difficulty).

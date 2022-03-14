@@ -35,13 +35,20 @@ bool Game::Init()
 	//Load images
 	if (!LoadImages())
 		return false;
-
+	
+	int w;
+	SDL_QueryTexture(img_start, NULL, NULL, &w, NULL);
+	Scene.Init(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+	god_mode = false;
+	
+	Start();
+	
 	//Init variables
 	Player.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT/(2) - 52, 82, 104, 5);
 	idx_shot = 0;
 	//Silence.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT >> 1, 104, 82, 5);
 	
-	int w;
+
 	SDL_QueryTexture(img_background, NULL, NULL, &w, NULL);
 	Scene.Init(0, 0, w, WINDOW_HEIGHT, 4);
 	god_mode = false;
@@ -51,11 +58,6 @@ bool Game::Init()
 	{
 		HP[i].Init(0 + (50 * i), 0, 41, 52, 0);
 	}
-
-	Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
-	mix_oscarmasterpiece = Mix_LoadMUS("gamemusic.wav");
-	Mix_VolumeMusic(MIX_MAX_VOLUME / 8);
-	Mix_PlayMusic(mix_oscarmasterpiece, -1);
 
 	return true;
 }
@@ -70,6 +72,16 @@ bool Game::LoadImages()
 
 	img_background = SDL_CreateTextureFromSurface(Renderer, IMG_Load("background.png"));
 	if (img_background == NULL) {
+		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
+		return false;
+	}
+	img_start = SDL_CreateTextureFromSurface(Renderer, IMG_Load("Inicio.png"));
+	if (img_start == NULL) {
+		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
+		return false;
+	}
+	img_end = SDL_CreateTextureFromSurface(Renderer, IMG_Load("Game over.png"));
+	if (img_end == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
@@ -91,7 +103,6 @@ bool Game::LoadImages()
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
-
 	
 	img_enemy1 = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy.png"));
 	if (img_enemy1 == NULL) {
@@ -117,7 +128,6 @@ bool Game::LoadImages()
 		return false;
 	}
 	
-
 	img_boss = SDL_CreateTextureFromSurface(Renderer, IMG_Load("boss-base.png"));
 	if (img_boss == NULL) {
 			SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
@@ -129,8 +139,11 @@ bool Game::LoadImages()
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
-
-
+	
+	Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
+	mix_oscarmasterpiece = Mix_LoadMUS("gamemusic.wav");
+	Mix_VolumeMusic(MIX_MAX_VOLUME / 8);
+	Mix_PlayMusic(mix_oscarmasterpiece, -1);
 
 	return true;
 }
@@ -149,7 +162,9 @@ void Game::Release()
 	SDL_DestroyTexture(img_silence);
 	
 	Mix_FreeMusic(mix_oscarmasterpiece);
-		Mix_Quit();
+	
+	Mix_Quit();
+	
 	IMG_Quit();
 
 	
@@ -301,121 +316,147 @@ bool Game::Update()
 	return false;
 }
 
+void Game::Start()
+{
+	SDL_Rect rc;
+
+	Scene.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+	SDL_RenderCopy(Renderer, img_start, NULL, &rc);
+
+	SDL_Delay(3000);
+}
+
+void Game::End()
+{
+	SDL_Rect rc;
+
+	Scene.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+	SDL_RenderCopy(Renderer, img_end, NULL, &rc);
+
+	SDL_Delay(3000);
+}
+
 void Game::Draw()
 {
 	SDL_Rect rc;
 
-	//Set the color used for drawing operations
-	SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
-	//Clear rendering target
-	SDL_RenderClear(Renderer);
+		//Set the color used for drawing operations
+		SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
+		//Clear rendering target
+		SDL_RenderClear(Renderer);
 
-	//God mode uses red wireframe rectangles for physical objects
-	if (god_mode) SDL_SetRenderDrawColor(Renderer, 192, 0, 0, 255);
+		//God mode uses red wireframe rectangles for physical objects
+		if (god_mode) SDL_SetRenderDrawColor(Renderer, 192, 0, 0, 255);
 
-	//Draw scene
-	Scene.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-	SDL_RenderCopy(Renderer, img_background, NULL, &rc);
-	// rc.x += rc.w;
-	// SDL_RenderCopy(Renderer, img_background, NULL, &rc);
-
-	//Draw player
-	if (god_mode) {
-		Player.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-		SDL_RenderCopy(Renderer, img_player2, NULL, &rc);
-		if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-	}
-	else {
-		Player.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-		SDL_RenderCopy(Renderer, img_player, NULL, &rc);
-		if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-	}
-
-	//Draw silence
-	Silence.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-	SDL_RenderCopy(Renderer, img_silence, NULL, &rc);
-
-	if (Boss.askBoss() && Boss.IsAlive()) {
-		Boss.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-		SDL_RenderCopy(Renderer, img_boss, NULL, &rc);
-		if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-	}
-
-	//Draw enemy
-	for (int i = 0; i < MAX_ENEMIES; ++i)
-	{
-		if (Enemy[i].IsAlive())
+		//Draw scene
+		if (!Boss.IsAlive())
 		{
-			//render the enemy
-			//int aux = rand() % 4;
-			//if (aux == 0) {
+			Scene.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+			SDL_RenderCopy(Renderer, img_background, NULL, &rc);
+		}
+		else
+		{
+			Scene.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+			SDL_RenderCopy(Renderer, img_backgroundc, NULL, &rc);
+		}
+		//Draw player
+		if (god_mode) {
+			Player.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+			SDL_RenderCopy(Renderer, img_player2, NULL, &rc);
+			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+		}
+		else {
+			Player.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+			SDL_RenderCopy(Renderer, img_player, NULL, &rc);
+			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+		}
+
+		//Draw silence
+		Silence.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+		SDL_RenderCopy(Renderer, img_silence, NULL, &rc);
+
+		if (Boss.askBoss() && Boss.IsAlive()) {
+			Boss.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+			SDL_RenderCopy(Renderer, img_boss, NULL, &rc);
+			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+		}
+
+		//Draw enemy
+		for (int i = 0; i < MAX_ENEMIES; ++i)
+		{
+			if (Enemy[i].IsAlive())
+			{
+				//render the enemy
+				//int aux = rand() % 4;
+				//if (aux == 0) {
 				Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 				SDL_RenderCopy(Renderer, img_enemy1, NULL, &rc);
 				if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-			/* }
-			else if (aux == 1) {
-				Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-				SDL_RenderCopy(Renderer, img_enemy2, NULL, &rc);
+				/* }
+				else if (aux == 1) {
+					Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+					SDL_RenderCopy(Renderer, img_enemy2, NULL, &rc);
+					if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+				}
+				else if (aux == 2) {
+					Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+					SDL_RenderCopy(Renderer, img_enemy3, NULL, &rc);
+					if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+				}
+				else if (aux == 3) {
+					Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+					SDL_RenderCopy(Renderer, img_enemy4, NULL, &rc);
+					if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+				}*/
+			}
+		}
+		//Draw shots
+		for (int i = 0; i < MAX_SHOTS; ++i)
+		{
+			if (Shots[i].IsAlive())
+			{
+				Shots[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+				SDL_RenderCopy(Renderer, img_shot, NULL, &rc);
 				if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
 			}
-			else if (aux == 2) {
-				Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-				SDL_RenderCopy(Renderer, img_enemy3, NULL, &rc);
+		}
+
+		if (god_mode) {
+			Player.HPlayer = 30;
+		}
+
+		//Draw HP
+		if (Player.HPlayer == 30)
+		{
+			for (int i = 0; i < MAX_HP; ++i)
+			{
+				HP[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+				SDL_RenderCopy(Renderer, img_player, NULL, &rc);
 				if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
 			}
-			else if (aux == 3) {
-				Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-				SDL_RenderCopy(Renderer, img_enemy4, NULL, &rc);
+
+		}
+		else if (Player.HPlayer == 20)
+		{
+			for (int i = 0; i < MAX_HP - 1; ++i)
+			{
+				HP[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+				SDL_RenderCopy(Renderer, img_player, NULL, &rc);
 				if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-			}*/
+			}
 		}
-	}
-	//Draw shots
-	for (int i = 0; i < MAX_SHOTS; ++i)
-	{
-		if (Shots[i].IsAlive())
+		else if (Player.HPlayer == 10)
 		{
-			Shots[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-			SDL_RenderCopy(Renderer, img_shot, NULL, &rc);
-			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+			for (int i = 0; i < MAX_HP - 2; ++i)
+			{
+				HP[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+				SDL_RenderCopy(Renderer, img_player, NULL, &rc);
+				if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+			}
 		}
-	}
+		//Update screen
+		SDL_RenderPresent(Renderer);
 
-	if (god_mode) {
-		Player.HPlayer = 30;
-	}
-
-	//Draw HP
-	if (Player.HPlayer == 30)
-	{
-		for (int i = 0; i < MAX_HP; ++i)
-		{
-			HP[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-			SDL_RenderCopy(Renderer, img_player, NULL, &rc);
-			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-		}
+		SDL_Delay(10);	// 1000/10 = 100 fps max
 	
-	}
-	else if (Player.HPlayer == 20)
-	{
-		for (int i = 0; i < MAX_HP - 1; ++i)
-		{
-			HP[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-			SDL_RenderCopy(Renderer, img_player, NULL, &rc);
-			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-		}
-	}
-	else if (Player.HPlayer == 10)
-	{
-		for (int i = 0; i < MAX_HP - 2; ++i)
-		{
-			HP[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-			SDL_RenderCopy(Renderer, img_player, NULL, &rc);
-			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-		}
-	}
-	//Update screen
-	SDL_RenderPresent(Renderer);
-
-	SDL_Delay(10);	// 1000/10 = 100 fps max
 }
