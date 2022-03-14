@@ -119,7 +119,7 @@ int Entity::whichNote()
 		return 6;
 	}
 	
-	else if (noctr == 10) {
+	else if (noctr == 11) {
 		return 50;
 	}
 	++noctr;

@@ -170,9 +170,13 @@ bool Game::Update()
 		++idx_enemy;
 		idx_enemy %= MAX_ENEMIES;
 	}
-	else {
-		Boss.Init (1920, 1080, 640, 1080, 1);
+	else if (truth == true && Enemy[63].whichNote() == 50){
+		Boss.Init (1920, 0, 640, 1080, -1);
 		Boss.enBoss();
+	}
+
+	if (Boss.askBoss() && Boss.GetX() > 1280){
+		Boss.Move(1, 0);
 	}
 
 	//Player update
@@ -181,6 +185,7 @@ bool Game::Update()
 	//Silence update
 	Silence.Move(1, 0);
 	
+
 	SDL_Rect rc;
 
 	for (int i = 0; i < MAX_ENEMIES; ++i)
@@ -245,7 +250,11 @@ void Game::Draw()
 	Silence.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 	SDL_RenderCopy(Renderer, img_silence, NULL, &rc);
 
-
+	if (Boss.askBoss()) {
+		Boss.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+		SDL_RenderCopy(Renderer, img_player, NULL, &rc);
+		if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+	}
 
 	//Draw enemy Emp doesnt work
 	for (int i = 0; i < MAX_ENEMIES; ++i)
