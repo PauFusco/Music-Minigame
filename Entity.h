@@ -23,7 +23,8 @@ public:
 	void Move(int dx, int dy);
 	bool spawnEnemies();
 	int  whichNote();
-
+	
+	int HP;
 	int pos = 0;
 	int enctr = 0;
 	int noctr = 1;
@@ -32,6 +33,8 @@ private:
 	int width, height;
 	int speed;
 	bool is_alive;
+
+	
 
 	bool is_boss = false;
 	

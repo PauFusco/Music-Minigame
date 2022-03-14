@@ -143,10 +143,10 @@ bool Game::Update()
 	int fx = 0, fy = 0;
 	if (keys[SDL_SCANCODE_ESCAPE] == KEY_DOWN)	return true;
 	if (keys[SDL_SCANCODE_F1] == KEY_DOWN)		god_mode = !god_mode;
-	
-	if (keys[SDL_SCANCODE_UP] == KEY_REPEAT)	fy = -1;
-	if (keys[SDL_SCANCODE_DOWN] == KEY_REPEAT)	fy = 1;
-	
+	if (Boss.GetX() <= 1280) {
+		if (keys[SDL_SCANCODE_UP] == KEY_REPEAT)	fy = -1;
+		if (keys[SDL_SCANCODE_DOWN] == KEY_REPEAT)	fy = 1;
+	}
 	if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN)
 	{
 		int x, y, w, h;
@@ -173,6 +173,7 @@ bool Game::Update()
 	else if (truth == true && Enemy[63].whichNote() == 50){
 		Boss.Init (1920, 0, 640, 1080, -1);
 		Boss.enBoss();
+		Boss.HP = 50;
 	}
 
 	if (Boss.askBoss() && Boss.GetX() > 1280){
