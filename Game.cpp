@@ -172,6 +172,7 @@ bool Game::Update()
 		idx_shot++;
 		idx_shot %= MAX_SHOTS;
 		}
+		
 	}
 
 	bool truth = Enemy[idx_enemy].spawnEnemies();
@@ -241,7 +242,7 @@ bool Game::Update()
 			if (Enemy[i].GetX() > WINDOW_WIDTH)	Enemy[i].ShutDown();
 			for (int j = 0; j < MAX_SHOTS; ++j)
 			{
-				if (Shots[j].IsAlive() && Shots[j].GetX() > Enemy[i].GetX() &&  0 < Enemy[i].GetY() - Shots[j].GetY() < 104)
+				if ((20 > Enemy[i].GetY() - Shots[j].GetY() >  -84) && Enemy[i].GetX() - Shots[j].GetX() = 56)
 				{
 					Shots[j].ShutDown();
 					Enemy[i].SetEmp();
