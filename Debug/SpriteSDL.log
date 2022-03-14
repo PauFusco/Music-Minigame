@@ -1,2 +1,4 @@
 ﻿  Game.cpp
-C:\Users\marcf\OneDrive\Documents\GitHub\Music-Minigame\Game.cpp(2,10): fatal error C1083: No se puede abrir el archivo incluir: 'SDL2_mixer.h': No such file or directory
+C:\Users\marcf\OneDrive\Documents\GitHub\Music-Minigame\Game.cpp(244,71): warning C4804: '<': uso no seguro del tipo 'bool' en la operación
+C:\Users\marcf\OneDrive\Documents\GitHub\Music-Minigame\Game.cpp(234,11): warning C4101: 'rc': variable local sin referencia
+  SpriteSDL.vcxproj -> C:\Users\marcf\OneDrive\Documents\GitHub\Music-Minigame\Debug\SpriteSDL.exe

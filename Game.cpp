@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "SDL2_mixer.h"
 #include <math.h>
 
 
@@ -223,6 +222,8 @@ bool Game::Update()
 		Boss.ShutDown();
 	}
 	
+
+
 	//Player update
 	Player.Move(fx, fy);
 
@@ -238,21 +239,18 @@ bool Game::Update()
 		{
 			Enemy[i].Move(-1, 0);
 			if (Enemy[i].GetX() > WINDOW_WIDTH)	Enemy[i].ShutDown();
-			
-		}
-	}
-	for (int i = 0; i < MAX_SHOTS; ++i)
-	{
-		for (int j = 0; j < MAX_ENEMIES; ++j)
-		{
-			if (-1 > Enemy[j].GetX() - Shots[i].GetX() > 1)
+			for (int j = 0; j < MAX_SHOTS; ++j)
 			{
-				Shots[i].ShutDown();
-				
-				Enemy[j].SetEmp();
+				if (Shots[j].IsAlive() && Shots[j].GetX() > Enemy[i].GetX() &&  0 < Enemy[i].GetY() - Shots[j].GetY() < 104)
+				{
+					Shots[j].ShutDown();
+					Enemy[i].SetEmp();
+				}
 			}
 		}
 	}
+
+	
 	//Shots update
 	for (int i = 0; i < MAX_SHOTS; ++i)
 	{
