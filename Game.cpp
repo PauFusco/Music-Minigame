@@ -44,6 +44,8 @@ bool Game::Init()
 	SDL_QueryTexture(img_background, NULL, NULL, &w, NULL);
 	Scene.Init(0, 0, w, WINDOW_HEIGHT, 4);
 	god_mode = false;
+	
+	//HP Initialization
 	for (int i = 0; i < MAX_HP; ++i)
 	{
 		HP[i].Init(0 + (50 * i), 0, 41, 52, 0);
