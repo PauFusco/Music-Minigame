@@ -311,6 +311,9 @@ void Game::Draw()
 		}
 	}
 
+	if (god_mode) {
+		Player.HP = 30;
+	}
 	//Draw HP
 	if (Player.HP == 30)
 	{
