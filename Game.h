@@ -34,7 +34,7 @@ public:
 private:
 	SDL_Window *Window;
 	SDL_Renderer *Renderer;
-	SDL_Texture *img_background, *img_player, *img_enemy, *img_enemyEmp, *img_boss, *img_silence, *img_shot, *img_HP;
+	SDL_Texture *img_background, *img_player, * img_player2, * img_enemy1, * img_enemy2, * img_enemy3, * img_enemy4, *img_enemyEmp, *img_boss, *img_silence, *img_shot, *img_HP;
 	Mix_Music* mix_oscarmasterpiece;
 
 	Entity Player, Boss, Shots[MAX_SHOTS], Enemy[MAX_ENEMIES], Scene, Silence, HP[MAX_HP];

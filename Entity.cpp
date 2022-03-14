@@ -82,49 +82,16 @@ int Entity::whichNote()
 {
 	srand(time(NULL));
 
-	if (noctr == 1) {
+	if (noctr < 15) {
 		++noctr;
 		return rand() % 11;
 	}
-	else if (noctr == 2) {
-		++noctr;
-		return 5;
-	}
-	else if (noctr == 3) {
-		++noctr;
-		return 3;
-	}
-	else if (noctr == 4) {
-		++noctr;
-		return 7;
-	}
-	else if (noctr == 5) {
-		++noctr;
-		return 5;
-	}
-	else if (noctr == 6) {
-		++noctr;
-		return 5;
-	}
-	else if (noctr == 7) {
-		++noctr;
-		return 9;
-	}
-	else if (noctr == 8) {
-		++noctr;
-		return 6;
-	}
-	else if (noctr == 9) {
-		++noctr;
-		return 4;
-	}
-	else if (noctr == 10) {
-		++noctr;
-		return 6;
-	}
-	
-	else if (noctr == 11) {
+	else if (noctr == 15) {
 		return 50;
+	}
+	else {
+		++noctr;
+		return rand() % 11;
 	}
 	noctr++;
 

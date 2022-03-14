@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <math.h>
+#include <cstdlib>
 
 
 Game::Game() {}
@@ -77,6 +78,12 @@ bool Game::LoadImages()
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
+
+	img_player2 = SDL_CreateTextureFromSurface(Renderer, IMG_Load("player-base2.png"));
+	if (img_player2 == NULL) {
+		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
+		return false;
+	}
 	
 	img_HP = SDL_CreateTextureFromSurface(Renderer, IMG_Load("player-base.png"));
 	if (img_player == NULL) {
@@ -84,11 +91,31 @@ bool Game::LoadImages()
 		return false;
 	}
 
-	img_enemy = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy.png"));
-	if (img_enemy == NULL) {
+	
+	img_enemy1 = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy.png"));
+	if (img_enemy1 == NULL) {
+		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());	
+		return false;
+	}
+
+	img_enemy2 = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy2.png"));
+	if (img_enemy2 == NULL) {
 		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
 		return false;
 	}
+
+	img_enemy3 = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy3.png"));
+	if (img_enemy3 == NULL) {
+		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
+		return false;
+	}
+
+	img_enemy4 = SDL_CreateTextureFromSurface(Renderer, IMG_Load("enemy4.png"));
+	if (img_enemy4 == NULL) {
+		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
+		return false;
+	}
+	
 
 	img_boss = SDL_CreateTextureFromSurface(Renderer, IMG_Load("boss-base.png"));
 	if (img_boss == NULL) {
@@ -112,7 +139,10 @@ void Game::Release()
 	SDL_DestroyTexture(img_background);
 	SDL_DestroyTexture(img_player);
 	SDL_DestroyTexture(img_shot);
-	SDL_DestroyTexture(img_enemy);
+	SDL_DestroyTexture(img_enemy1);
+	SDL_DestroyTexture(img_enemy2);
+	SDL_DestroyTexture(img_enemy3);
+	SDL_DestroyTexture(img_enemy4);
 	SDL_DestroyTexture(img_enemyEmp);
 	SDL_DestroyTexture(img_boss);
 	SDL_DestroyTexture(img_silence);
@@ -290,9 +320,16 @@ void Game::Draw()
 	// SDL_RenderCopy(Renderer, img_background, NULL, &rc);
 
 	//Draw player
-	Player.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-	SDL_RenderCopy(Renderer, img_player, NULL, &rc);
-	if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+	if (god_mode) {
+		Player.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+		SDL_RenderCopy(Renderer, img_player2, NULL, &rc);
+		if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+	}
+	else {
+		Player.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+		SDL_RenderCopy(Renderer, img_player, NULL, &rc);
+		if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+	}
 
 	//Draw silence
 	Silence.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
@@ -307,12 +344,30 @@ void Game::Draw()
 	//Draw enemy
 	for (int i = 0; i < MAX_ENEMIES; ++i)
 	{
-		if (Enemy[i].IsAlive() && !Enemy[i].IsEmp())
+		if (Enemy[i].IsAlive())
 		{
 			//render the enemy
-			Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-			SDL_RenderCopy(Renderer, img_enemy, NULL, &rc);
-			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+			int aux = rand() % 4;
+			if (aux == 0) {
+				Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+				SDL_RenderCopy(Renderer, img_enemy1, NULL, &rc);
+				if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+			}
+			else if (aux == 1) {
+				Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+				SDL_RenderCopy(Renderer, img_enemy2, NULL, &rc);
+				if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+			}
+			else if (aux == 2) {
+				Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+				SDL_RenderCopy(Renderer, img_enemy3, NULL, &rc);
+				if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+			}
+			else if (aux == 3) {
+				Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+				SDL_RenderCopy(Renderer, img_enemy4, NULL, &rc);
+				if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
+			}
 		}
 	}
 	//Draw shots
@@ -361,5 +416,5 @@ void Game::Draw()
 	//Update screen
 	SDL_RenderPresent(Renderer);
 
-	SDL_Delay(10);	// 1000/10 = 100 fps max
+	SDL_Delay(12);	// 1000/10 = 100 fps max
 }

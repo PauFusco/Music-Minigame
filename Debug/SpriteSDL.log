@@ -1,4 +1,3 @@
 ﻿  Entity.cpp
-C:\Users\paufu\Documents\GitHub\Music-Minigame\Entity.cpp(83,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-C:\Users\paufu\Documents\GitHub\Music-Minigame\Entity.cpp(145): warning C4715: 'Entity::whichNote': no todas las rutas de acceso de control devuelven un valor
-  SpriteSDL.vcxproj -> C:\Users\paufu\Documents\GitHub\Music-Minigame\Debug\SpriteSDL.exe
+C:\Users\marcf\OneDrive\Documents\GitHub\Music-Minigame\Entity.cpp(83,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+  SpriteSDL.vcxproj -> C:\Users\marcf\OneDrive\Documents\GitHub\Music-Minigame\Debug\SpriteSDL.exe
