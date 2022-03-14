@@ -1,3 +1,3 @@
 ﻿  Game.cpp
-C:\CITM\Project I\Project1\Music-Minigame\Game.cpp(196,11): warning C4101: 'rc': variable local sin referencia
+C:\CITM\Project I\Project1\Music-Minigame\Game.cpp(202,11): warning C4101: 'rc': variable local sin referencia
   SpriteSDL.vcxproj -> C:\CITM\Project I\Project1\Music-Minigame\Debug\SpriteSDL.exe

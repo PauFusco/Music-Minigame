@@ -24,7 +24,7 @@ public:
 	bool spawnEnemies();
 	int  whichNote();
 	
-	int HP;
+	int HP = 30;
 	int pos = 0;
 	int enctr = 0;
 	int noctr = 1;

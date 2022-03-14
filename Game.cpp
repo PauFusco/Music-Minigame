@@ -181,11 +181,17 @@ bool Game::Update()
 	if (Boss.askBoss() && Boss.GetX() > 1280){
 		Boss.Move(-1, 0);
 	}
+	
 	for (int i = 0; i < MAX_ENEMIES; ++i) {
 		if (Enemy[i].IsAlive() && !Enemy[i].IsEmp() && Enemy[i].GetX() < 460) {
 			Enemy[i].ShutDown();
+			Player.HP -= 10;
+			if (Player.HP == 0) {
+				return true;
+			}
 		}
 	}
+	
 	//Player update
 	Player.Move(fx, fy);
 
@@ -204,21 +210,21 @@ bool Game::Update()
 			
 		}
 	}
-
+	for (int i = 0; i < MAX_SHOTS; ++i)
+	{
+		for (int j = 0; j < MAX_ENEMIES; ++j)
+		{
+			if (Enemy[j].GetX() == Shots[i].GetX())
+			{
+				Enemy[j].SetEmp();
+				Shots[i].ShutDown();
+				
+			}
+		}
+	}
 	//Shots update
 	for (int i = 0; i < MAX_SHOTS; ++i)
 	{
-		for (int j = 0; j < 12; ++j) {
-			/*if (SDL_HasIntersection(Enemy[j].GetRect(&rc.x, &rc.y, &rc.w, &rc.h), Shots[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h)) == true) {
-					//Shots[i].ShutDown();
-					//Enemy[j].SetEmp();
-			}*/
-			
-			if (Enemy[j].GetX() == Shots[i].GetX()) {
-				Shots[i].ShutDown();
-				Enemy[j].SetEmp();
-			}
-		}
 		if (Shots[i].IsAlive())
 		{
 			Shots[i].Move(1, 0);
@@ -294,5 +300,5 @@ void Game::Draw()
 	//Update screen
 	SDL_RenderPresent(Renderer);
 
-	SDL_Delay(10);	// 1000/10 = 100 fps max
+	//SDL_Delay(10);	// 1000/10 = 100 fps max
 }
