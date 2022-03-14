@@ -14,6 +14,9 @@ public:
 	void ShutDown(); 
 	bool IsAlive();
 	
+	void enBoss();
+	bool askBoss();
+
 	bool IsEmp();
 	bool SetEmp();
 	
@@ -29,6 +32,8 @@ private:
 	int width, height;
 	int speed;
 	bool is_alive;
+
+	bool is_boss = false;
 	
 	bool is_emp;
 };

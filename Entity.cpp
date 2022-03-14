@@ -50,6 +50,14 @@ bool Entity::IsAlive()
 	return is_alive;
 }
 
+//try this:
+void Entity::enBoss() {
+	is_boss = true;
+}
+bool Entity::askBoss() {
+	return is_boss;
+}
+
 //not tried
 bool Entity::IsEmp()
 {
@@ -109,6 +117,10 @@ int Entity::whichNote()
 	else if (noctr == 10) {
 		++noctr;
 		return 6;
+	}
+	
+	else if (noctr == 10) {
+		return 50;
 	}
 	++noctr;
 	

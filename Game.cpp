@@ -164,11 +164,15 @@ bool Game::Update()
 
 	bool truth = Enemy[idx_enemy].spawnEnemies();
 	
-	if (truth == true) {
+	if (truth == true && Enemy[63].whichNote() != 50) {
 		int note = Enemy[63].whichNote();
 		Enemy[idx_enemy].Init (1920, 960 - (88 * note), 82, 104, 10);
 		++idx_enemy;
 		idx_enemy %= MAX_ENEMIES;
+	}
+	else {
+		Boss.Init (1920, 1080, 640, 1080, 1);
+		Boss.enBoss();
 	}
 
 	//Player update
