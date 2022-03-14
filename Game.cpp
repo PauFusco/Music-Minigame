@@ -199,23 +199,27 @@ bool Game::Update()
 	for (int i = 0; i < MAX_ENEMIES; ++i) {
 		if (Enemy[i].IsAlive() && !Enemy[i].IsEmp() && Enemy[i].GetX() < 460) {
 			Enemy[i].ShutDown();
-			Player.HP -= 10;
-			if (Player.HP == 0) {
-				return true;
-			}
+			Player.HPlayer -= 10;
+			if (Player.HPlayer == 0) return true;
 		}
 	}
 
-	while (Boss.IsAlive()) {
-		for (int i = 0; i < MAX_SHOTS; ++i) {
-			if (Shots[i].GetX() == 1280) {
-				Boss.HP--;
+	if (Boss.IsAlive())
+	{
+		for (int i = 0; i < MAX_SHOTS; ++i)
+		{
+			if (Shots[i].IsAlive() && Shots[i].GetX() > 1280)
+			{
 				Shots[i].ShutDown();
-				if (Boss.HP == 0) {
-					Boss.ShutDown();
-				}
+				Boss.HBoss--;
+				if (Boss.HBoss == 0) Boss.ShutDown();
 			}
 		}
+	}
+	
+	if (Boss.HBoss == 0)
+	{
+		Boss.ShutDown();
 	}
 	
 	//Player update
@@ -290,7 +294,7 @@ void Game::Draw()
 	Silence.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 	SDL_RenderCopy(Renderer, img_silence, NULL, &rc);
 
-	if (Boss.askBoss()) {
+	if (Boss.askBoss() && Boss.IsAlive()) {
 		Boss.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 		SDL_RenderCopy(Renderer, img_boss, NULL, &rc);
 		if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
@@ -325,10 +329,10 @@ void Game::Draw()
 	}
 
 	if (god_mode) {
-		Player.HP = 30;
+		Player.HPlayer = 30;
 	}
 	//Draw HP
-	if (Player.HP == 30)
+	if (Player.HPlayer == 30)
 	{
 		for (int i = 0; i < MAX_HP; ++i)
 		{
@@ -338,7 +342,7 @@ void Game::Draw()
 		}
 	
 	}
-	else if (Player.HP == 20)
+	else if (Player.HPlayer == 20)
 	{
 		for (int i = 0; i < MAX_HP - 1; ++i)
 		{
@@ -347,7 +351,7 @@ void Game::Draw()
 			if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
 		}
 	}
-	else if (Player.HP == 10)
+	else if (Player.HPlayer == 10)
 	{
 		for (int i = 0; i < MAX_HP - 2; ++i)
 		{

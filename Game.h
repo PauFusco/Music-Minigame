@@ -40,7 +40,6 @@ private:
 	
 	int idx_shot;
 	int idx_enemy;
-	int idx_HP;
 	
 	bool god_mode;
 
