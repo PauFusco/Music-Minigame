@@ -82,11 +82,11 @@ int Entity::whichNote()
 {
 	srand(time(NULL));
 
-	if (noctr < 15) {
+	if (noctr < 10) {
 		++noctr;
 		return rand() % 11;
 	}
-	else if (noctr == 15) {
+	else if (noctr == 10) {
 		return 50;
 	}
 	else {

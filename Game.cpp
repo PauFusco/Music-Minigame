@@ -54,6 +54,7 @@ bool Game::Init()
 
 	Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048);
 	mix_oscarmasterpiece = Mix_LoadMUS("gamemusic.wav");
+	Mix_VolumeMusic(MIX_MAX_VOLUME / 8);
 	Mix_PlayMusic(mix_oscarmasterpiece, -1);
 
 	return true;
@@ -186,8 +187,8 @@ bool Game::Update()
 	if (keys[SDL_SCANCODE_F1] == KEY_DOWN)		god_mode = !god_mode;
 	
 	if (Boss.GetX() <= 1280) {
-		if (keys[SDL_SCANCODE_UP] == KEY_REPEAT)	fy = -1;
-		if (keys[SDL_SCANCODE_DOWN] == KEY_REPEAT)	fy = 1;
+		if (keys[SDL_SCANCODE_UP] == KEY_REPEAT)	fy = -2;
+		if (keys[SDL_SCANCODE_DOWN] == KEY_REPEAT)	fy = 2;
 		
 		if (keys[SDL_SCANCODE_SPACE] == KEY_DOWN)
 		{
@@ -207,21 +208,19 @@ bool Game::Update()
 
 	bool truth = Enemy[idx_enemy].spawnEnemies();
 
-		if (truth == true && Enemy[62].whichNote() != 50)
-		{
-			int note = Enemy[63].whichNote();
-			Enemy[idx_enemy].Init(1920, 960 - (88 * note), 82, 104, 10);
-
-			++idx_enemy;
-			idx_enemy %= MAX_ENEMIES;
-		}
-		else if (truth == true && Enemy[63].whichNote() == 50)
-		{
-			Boss.Init(1920, 0, 640, 1080, 1);
-			Boss.enBoss();
-		}
-	
-	
+	if (truth == true && Enemy[62].whichNote() != 50)
+	{
+		int note = Enemy[63].whichNote();
+		Enemy[idx_enemy].Init(1920, 960 - (88 * note), 82, 104, 10);
+		++idx_enemy;
+		idx_enemy %= MAX_ENEMIES;
+	}
+	else if (truth == true && Enemy[63].whichNote() == 50)
+	{
+		Boss.Init(1920, 0, 640, 1080, 1);
+		Boss.enBoss();
+		Mix_VolumeMusic(MIX_MAX_VOLUME);
+	}
 
 	//Move boss until in position
 	if (Boss.askBoss() && Boss.GetX() > 1280)
@@ -245,7 +244,12 @@ bool Game::Update()
 			{
 				Shots[i].ShutDown();
 				Boss.HBoss--;
-				if (Boss.HBoss == 0) Boss.ShutDown();
+				if (Boss.HBoss == 0)
+				{
+					Boss.ShutDown();
+					SDL_Delay(500);
+					return true;
+				}
 			}
 		}
 	}
@@ -254,8 +258,6 @@ bool Game::Update()
 	{
 		Boss.ShutDown();
 	}
-	
-
 
 	//Player update
 	Player.Move(fx, fy);
@@ -284,7 +286,6 @@ bool Game::Update()
 			}
 		}
 	}
-
 	
 	//Shots update
 	for (int i = 0; i < MAX_SHOTS; ++i)
@@ -293,11 +294,10 @@ bool Game::Update()
 		{
 			Shots[i].Move(1, 0);
 			if (Shots[i].GetX() > WINDOW_WIDTH)	Shots[i].ShutDown();
+			
 
 		}
-		
 	}
-
 	return false;
 }
 
@@ -347,12 +347,12 @@ void Game::Draw()
 		if (Enemy[i].IsAlive())
 		{
 			//render the enemy
-			int aux = rand() % 4;
-			if (aux == 0) {
+			//int aux = rand() % 4;
+			//if (aux == 0) {
 				Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 				SDL_RenderCopy(Renderer, img_enemy1, NULL, &rc);
 				if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-			}
+			/* }
 			else if (aux == 1) {
 				Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 				SDL_RenderCopy(Renderer, img_enemy2, NULL, &rc);
@@ -367,7 +367,7 @@ void Game::Draw()
 				Enemy[i].GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 				SDL_RenderCopy(Renderer, img_enemy4, NULL, &rc);
 				if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
-			}
+			}*/
 		}
 	}
 	//Draw shots
@@ -384,6 +384,7 @@ void Game::Draw()
 	if (god_mode) {
 		Player.HPlayer = 30;
 	}
+
 	//Draw HP
 	if (Player.HPlayer == 30)
 	{
@@ -416,5 +417,5 @@ void Game::Draw()
 	//Update screen
 	SDL_RenderPresent(Renderer);
 
-	SDL_Delay(12);	// 1000/10 = 100 fps max
+	SDL_Delay(10);	// 1000/10 = 100 fps max
 }

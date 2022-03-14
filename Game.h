@@ -16,6 +16,7 @@
 #define MAX_SHOTS		32
 #define MAX_ENEMIES		64
 #define MAX_HP			3
+#define MIX_MAX_VOLUME  128
 
 class Game
 {
