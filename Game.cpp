@@ -252,7 +252,7 @@ void Game::Draw()
 
 	if (Boss.askBoss()) {
 		Boss.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
-		SDL_RenderCopy(Renderer, img_player, NULL, &rc);
+		SDL_RenderCopy(Renderer, img_boss, NULL, &rc);
 		if (god_mode) SDL_RenderDrawRect(Renderer, &rc);
 	}
 
