@@ -32,7 +32,10 @@ public:
 	bool Update();
 	void Draw();
 
-	//void Start();
+	void setState(int state);
+
+	int askState();
+
 	//void End();
 
 private:
@@ -43,8 +46,11 @@ private:
 
 	Entity Player, Boss, Shots[MAX_SHOTS], Enemy[MAX_ENEMIES], Scene, Silence, HP[MAX_HP];
 	
+	int state = 0;
+
 	int idx_shot;
 	int idx_enemy;
+
 	
 	bool god_mode;
 

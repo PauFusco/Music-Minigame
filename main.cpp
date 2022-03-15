@@ -5,8 +5,6 @@ int main(int argc, char* args[])
 	Game game;
 	if (!game.Init()) return -1;
 	
-	//game.Start();
-	
 	bool end = false;
 	while (!end)
 	{

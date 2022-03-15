@@ -197,6 +197,14 @@ bool Game::Input()
 	return true;
 }
 
+void Game::setState(int State) {
+	state = State;
+}
+
+int Game::askState() {
+	return state;
+}
+
 bool Game::Update()
 {
 	//Read Input
@@ -351,7 +359,18 @@ void Game::Draw()
 {
 	SDL_Rect rc;
 
-		//Set the color used for drawing operations
+	while (askState() == 0) {
+		
+			SDL_Rect rc;
+
+			Scene.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
+			SDL_RenderCopy(Renderer, img_start, NULL, &rc);
+
+			if (keys[SDL_SCANCODE_EXECUTE] == KEY_DOWN) setState(1);
+				
+	}
+
+	while (askState() == 1) {
 		SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
 		//Clear rendering target
 		SDL_RenderClear(Renderer);
@@ -468,5 +487,7 @@ void Game::Draw()
 		//Update screen
 		SDL_RenderPresent(Renderer);
 
-		SDL_Delay(10);	// 1000/10 = 100 fps max
+		SDL_Delay(10);	// 1000/10 = 100 fps max}
+		//Set the color used for drawing operations
+	}
 }

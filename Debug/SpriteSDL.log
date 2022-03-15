@@ -1,7 +1,7 @@
 ﻿  Game.cpp
 C:\Users\paufz\Documents\GitHub\Music-Minigame\Game.h(19,1): warning C4005: 'MIX_MAX_VOLUME': redefinición de macro
 C:\Users\paufz\Documents\GitHub\Music-Minigame\SDL_mixer\include\SDL_mixer.h(104): message : vea la definición anterior de 'MIX_MAX_VOLUME'
-C:\Users\paufz\Documents\GitHub\Music-Minigame\Game.cpp(289,11): warning C4101: 'rc': variable local sin referencia
+C:\Users\paufz\Documents\GitHub\Music-Minigame\Game.cpp(297,11): warning C4101: 'rc': variable local sin referencia
   main.cpp
 C:\Users\paufz\Documents\GitHub\Music-Minigame\Game.h(19,1): warning C4005: 'MIX_MAX_VOLUME': redefinición de macro
 C:\Users\paufz\Documents\GitHub\Music-Minigame\SDL_mixer\include\SDL_mixer.h(104): message : vea la definición anterior de 'MIX_MAX_VOLUME'
