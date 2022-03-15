@@ -16,9 +16,6 @@ public:
 	
 	void enBoss();
 	bool askBoss();
-
-	bool IsEmp();
-	bool SetEmp();
 	
 	void Move(int dx, int dy);
 	bool spawnEnemies();
@@ -38,5 +35,4 @@ private:
 	bool is_boss = false;
 	
 
-	bool is_emp = false;
 };

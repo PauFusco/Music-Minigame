@@ -41,7 +41,13 @@ bool Game::Init()
 	Scene.Init(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 	god_mode = false;
 	
-	//Start();
+	img_start = SDL_CreateTextureFromSurface(Renderer, IMG_Load("Inicio.png"));
+	if (img_start == NULL) {
+		SDL_Log("CreateTextureFromSurface failed: %s\n", SDL_GetError());
+		return false;
+	}
+
+//	Start();
 	
 	//Init variables
 	Player.Init(WINDOW_WIDTH >> 3, WINDOW_HEIGHT/(2) - 52, 82, 104, 5);
@@ -244,7 +250,7 @@ bool Game::Update()
 	}
 	
 	for (int i = 0; i < MAX_ENEMIES; ++i) {
-		if (Enemy[i].IsAlive() && !Enemy[i].IsEmp() && Enemy[i].GetX() < 460) {
+		if (Enemy[i].IsAlive() && Enemy[i].GetX() < 460) {
 			Enemy[i].ShutDown();
 			Player.HPlayer -= 10;
 			if (Player.HPlayer == 0) return true;
@@ -262,8 +268,7 @@ bool Game::Update()
 				if (Boss.HBoss == 0)
 				{
 					Boss.ShutDown();
-					SDL_Delay(500);
-					return true;
+					
 				}
 			}
 		}
@@ -319,12 +324,16 @@ bool Game::Update()
 /*
 void Game::Start()
 {
+	while(!keys[SDL_SCANCODE_INSERT] == KEY_DOWN){
 	SDL_Rect rc;
 
 	Scene.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 	SDL_RenderCopy(Renderer, img_start, NULL, &rc);
 
-	SDL_Delay(3000);
+	SDL_Delay(10);
+
+	}
+
 }
 
 void Game::End()
@@ -351,16 +360,16 @@ void Game::Draw()
 		if (god_mode) SDL_SetRenderDrawColor(Renderer, 192, 0, 0, 255);
 
 		//Draw scene
-		if (!Boss.IsAlive())
+		//if (!Boss.IsAlive())
 		{
 			Scene.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 			SDL_RenderCopy(Renderer, img_background, NULL, &rc);
 		}
-		else
+		/*else
 		{
 			Scene.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);
 			SDL_RenderCopy(Renderer, img_backgroundc, NULL, &rc);
-		}
+		}*/
 		//Draw player
 		if (god_mode) {
 			Player.GetRect(&rc.x, &rc.y, &rc.w, &rc.h);

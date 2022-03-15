@@ -60,16 +60,6 @@ bool Entity::askBoss() {
 	return is_boss;
 }
 
-//not tried
-bool Entity::IsEmp()
-{
-	return is_emp;
-}
-bool Entity::SetEmp()
-{
-	return true;
-}
-
 
 void Entity::Move(int dx, int dy)
 {
